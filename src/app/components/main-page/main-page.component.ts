@@ -7,7 +7,8 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main-page',
-  imports: [RouterOutlet, RouterModule, CommonModule, LoginEventosSahuaroComponent, NavBarComponent],
+  imports: [RouterOutlet, RouterModule, CommonModule, LoginEventosSahuaroComponent, NavBarComponent, CostComponent,
+    DatesComponent, MediaComponent, StockComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })
