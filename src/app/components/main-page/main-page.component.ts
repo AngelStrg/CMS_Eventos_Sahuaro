@@ -3,6 +3,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginEventosSahuaroComponent } from "../login-eventos-sahuaro/login-eventos-sahuaro.component";
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main-page',
@@ -11,5 +12,10 @@ import { NavBarComponent } from "../nav-bar/nav-bar.component";
   styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
+constructor(private titleService: Title) {}
+
+ngOnInit() {
+  this.titleService.setTitle('Pagina principal');
+}
 
 }

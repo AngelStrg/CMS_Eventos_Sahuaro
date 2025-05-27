@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-eventos-sahuaro',
@@ -28,5 +29,11 @@ export class LoginEventosSahuaroComponent {
       this.successMessage = '';
     }
   }
+  constructor(private titleService: Title) {}
+
+ngOnInit() {
+  this.titleService.setTitle('Inicio de sesión');
+}
+
 }
 
