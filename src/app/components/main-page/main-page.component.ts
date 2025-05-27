@@ -3,6 +3,10 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginEventosSahuaroComponent } from "../login-eventos-sahuaro/login-eventos-sahuaro.component";
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
+import { CostComponent } from "../cost/cost.component";
+import { DatesComponent } from "../dates/dates.component";
+import { MediaComponent } from "../media/media.component";
+import { StockComponent } from "../stock/stock.component";
 import { Title } from '@angular/platform-browser';
 
 @Component({
