@@ -12,3 +12,10 @@
     color: black;
     text-align: center;
 }
+
+.btn-primary {
+    background-color: #6D9A45 !important;
+    border-color: #6D9A45 !important;
+    color: #fff !important;
+}
+
