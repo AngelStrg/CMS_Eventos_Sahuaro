@@ -5,7 +5,9 @@ import { FormsModule } from '@angular/forms';
 interface Product {
   name: string;
   price: number;
+  price1: number;
   editing: boolean;
+  editing1: boolean;
 }
 
 @Component({
@@ -17,9 +19,11 @@ interface Product {
 })
 export class CostComponent {
   products: Product[] = [
-    { name: 'Producto A', price: 100, editing: false },
-    { name: 'Producto B', price: 200, editing: false },
-    { name: 'Producto C', price: 300, editing: false },
+    { name: '5 a 25', price: 100, price1: 100, editing: false, editing1: false },
+    { name: '26 a 50', price: 200, price1: 100, editing: false, editing1: false },
+    { name: '51 a 80', price: 300, price1: 100, editing: false, editing1: false },
+    { name: '81 a 100', price: 300, price1: 100, editing: false, editing1: false },
+    { name: '101 a 150', price: 300, price1: 100, editing: false, editing1: false },
   ];
 
   editProduct(index: number): void {
@@ -31,4 +35,15 @@ export class CostComponent {
     // Aquí podrías llamar a un servicio para actualizar el precio en el backend
     console.log(`Producto actualizado:`, this.products[index]);
   }
+
+  editProduct1(index: number): void {
+    this.products[index].editing1 = true;
+  }
+
+  saveProduct1(index: number): void {
+    this.products[index].editing1 = false;
+    // Aquí podrías llamar a un servicio para actualizar el precio en el backend
+    console.log(`Producto actualizado:`, this.products[index]);
+  }
+
 }
