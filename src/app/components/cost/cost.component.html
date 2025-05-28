@@ -1,28 +1,28 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Actualizar Costos</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
-    <h1>Actualizar Costos de Productos</h1>
-    <table id="product-table">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Acción</th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
-        <!-- Filas dinámicas -->
-      </tbody>
-    </table>
-  </div>
-
-  <script type="module" src="app.ts"></script>
-</body>
-</html>
+<div class="table-container">
+  <h2>Gestión de Precios de Productos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products; let i = index">
+        <td>{{ product.name }}</td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="product.price"
+            [disabled]="!product.editing"
+          />
+        </td>
+        <td>
+          <button *ngIf="!product.editing" (click)="editProduct(i)">Editar</button>
+          <button *ngIf="product.editing" (click)="saveProduct(i)">Guardar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
