@@ -19,11 +19,11 @@ interface Product {
 })
 export class CostComponent {
   products: Product[] = [
-    { name: '5 a 25', price: 100, price1: 100, editing: false, editing1: false },
-    { name: '26 a 50', price: 200, price1: 100, editing: false, editing1: false },
-    { name: '51 a 80', price: 300, price1: 100, editing: false, editing1: false },
-    { name: '81 a 100', price: 300, price1: 100, editing: false, editing1: false },
-    { name: '101 a 150', price: 300, price1: 100, editing: false, editing1: false },
+    { name: '5 a 25', price: 4400, price1: 3900, editing: false, editing1: false },
+    { name: '26 a 50', price: 5400, price1: 4900, editing: false, editing1: false },
+    { name: '51 a 80', price: 5900, price1: 5400, editing: false, editing1: false },
+    { name: '81 a 100', price: 6900, price1: 6400, editing: false, editing1: false },
+    { name: '101 a 150', price: 7900, price1: 7400, editing: false, editing1: false },
   ];
 
   editProduct(index: number): void {
