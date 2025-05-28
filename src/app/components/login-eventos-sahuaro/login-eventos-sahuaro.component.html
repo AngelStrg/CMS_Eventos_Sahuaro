@@ -1,1 +1,41 @@
-<p>login-eventos-sahuaro works!</p>
+<div class="login-container d-flex justify-content-center align-items-center">
+  <div class="card login-card shadow-lg">
+    <div class="card-body text-center">
+      <h2 class="mb-4 text-primary fw-bold">Eventos Sahuaro</h2>
+      <h5 class="mb-4 text-muted">Inicio de sesión</h5>
+
+      <!-- Alertas -->
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+      <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+        <div class="mb-3 text-start">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            name="email"
+            ngModel
+            required
+          />
+        </div>
+
+        <div class="mb-4 text-start">
+          <label for="password" class="form-label">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            name="password"
+            ngModel
+            required
+          />
+        </div>
+        <button [routerLink]="['/app-main-page']" routerLinkActive="routerLinkActive"  type="submit" class="btn btn-primary btn-lg">
+          Iniciar Sesión</button>
+      </form>
+    </div>
+  </div>
+</div>
+

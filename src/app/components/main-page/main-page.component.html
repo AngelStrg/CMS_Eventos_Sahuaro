@@ -1,0 +1,12 @@
+<main>
+  <a routerLink="['/']"></a>
+  <app-nav-bar></app-nav-bar>
+    <h1 id="title">Bienvenido</h1>
+  <section class="container">
+    <button [routerLink]="['/app-cost']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Costos</button>
+    <button [routerLink]="['/app-media']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Imagenes</button>
+    <button [routerLink]="['/app-dates']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Datos</button>
+    <button [routerLink]="['/app-stock']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Inventario</button>
+  </section>
+
+</main>
