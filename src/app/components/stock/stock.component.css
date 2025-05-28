@@ -1,0 +1,79 @@
+.stock-container {
+  background-color: #aac18a;
+  padding: 30px;
+  border-radius: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.item-nombre {
+  flex: 1;
+}
+
+input[type="number"], input[type="text"] {
+  width: 80px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  margin: 0 5px;
+  font-size: 14px;
+}
+
+button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn {
+  background-color: #dce7cd;
+  color: #333;
+}
+
+.delete-btn {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.guardar-btn {
+  background-color: #d3e6c1;
+  width: 100%;
+  margin-top: 15px;
+  color: #333;
+  font-weight: bold;
+}
+
+.nuevo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+

@@ -1,1 +1,20 @@
-<p>stock works!</p>
+<div class="stock-container">
+  <h2>Inventario disponible</h2>
+
+  <ul>
+    <li *ngFor="let item of stock; let i = index">
+      <span class="item-nombre">{{ item.nombre }}</span>
+      <input type="number" [(ngModel)]="item.cantidad" min="0">
+      <button (click)="eliminarItem(i)" class="delete-btn">Eliminar</button>
+    </li>
+  </ul>
+
+  <div class="nuevo-item">
+    <input [(ngModel)]="nuevoItem.nombre" placeholder="Nuevo artículo">
+    <input type="number" [(ngModel)]="nuevoItem.cantidad" min="1">
+    <button (click)="agregarItem()" class="add-btn">Añadir</button>
+  </div>
+
+  <button class="guardar-btn" (click)="guardarCambios()">Guardar cambios</button>
+</div>
+
