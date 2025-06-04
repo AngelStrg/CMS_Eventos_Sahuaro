@@ -1,34 +1,43 @@
-<div class="table-container">
-  <h2>Gestión de Precios</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Número de personas</th>
-        <th>Costo con alberca</th>
-        <th>Acción</th>
-        <th>Costo sin alberca</th>
-        <th>Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products; let i = index">
-        <td>{{ product.name }}</td>
-        <td>
-          <input type="number" [(ngModel)]="product.price" [disabled]="!product.editing" />
-        </td>
-        <td>
-          <button *ngIf="!product.editing" (click)="editProduct(i)">Editar</button>
-          <button *ngIf="product.editing" (click)="saveProduct(i)">Guardar</button>
-        </td>
+<div class="cost-container">
+  <h2>Actualizar costos del salón</h2>
 
-        <td>
-          <input type="number" [(ngModel)]="product.price1" [disabled]="!product.editing1" />
-        </td>
-        <td>
-          <button *ngIf="!product.editing1" (click)="editProduct1(i)">Editar</button>
-          <button *ngIf="product.editing1" (click)="saveProduct1(i)">Guardar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <form (ngSubmit)="savePrices()">
+    <table>
+      <thead>
+        <tr>
+          <th>Número de Personas</th>
+          <th>Costo con alberca ($)</th>
+          <th>Costo sin alberca ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of services">
+          <td>{{ service.name }}</td>
+          <td>
+            <input
+              type="number"
+              [(ngModel)]="service.priceWithPool"
+              name="withPool-{{service.id}}"
+              [disabled]="!isEditing"
+              required
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              [(ngModel)]="service.priceWithoutPool"
+              name="withoutPool-{{service.id}}"
+              [disabled]="!isEditing"
+              required
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="submit" [disabled]="!isEditing">Guardar cambios</button>
+    <button type="button" (click)="toggleEdit()"> {{ isEditing ? 'Cancelar edición' : 'Editar' }}
+  </button>
+  </form>
 </div>
+
