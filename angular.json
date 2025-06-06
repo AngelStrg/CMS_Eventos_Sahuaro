@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "CMS_Eventos_Sahuaro": {
+    "cms-eventos-sahuaro": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "CMS_Eventos_Sahuaro:build:production"
+              "buildTarget": "cms-eventos-sahuaro:build:production"
             },
             "development": {
-              "buildTarget": "CMS_Eventos_Sahuaro:build:development"
+              "buildTarget": "cms-eventos-sahuaro:build:development"
             }
           },
           "defaultConfiguration": "development"

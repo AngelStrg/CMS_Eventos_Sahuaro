@@ -1,43 +1,57 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { CostosService } from '../../services/costos.service';
+import { Cost } from '../../models/cost.interface';
 
 
 @Component({
   selector: 'app-cost',
   templateUrl: './cost.component.html',
   styleUrls: ['./cost.component.css'],
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   standalone: true
 })
 export class CostComponent {
-   isEditing = false; //Controla si los inputs están activos
-  services = [
-    { id: 1, name: '5 a 25', priceWithPool: 4400, priceWithoutPool: 3900 },
-    { id: 2, name: '26 a 50', priceWithPool: 5400, priceWithoutPool: 4900 },
-    { id: 3, name: '51 a 80', priceWithPool: 5900, priceWithoutPool: 5400 },
-    { id: 4, name: '81 a 100', priceWithPool: 6900, priceWithoutPool: 6400 },
-    { id: 5, name: '101 a 150', priceWithPool: 7900, priceWithoutPool: 7400 }
-  ];
 
-  private backupServices: any[] = [];
+  formulario: FormGroup;
 
-  toggleEdit() {
-    if (!this.isEditing) {
-      // Activar edición: guardar copia de seguridad
-      this.backupServices = JSON.parse(JSON.stringify(this.services));
-      this.isEditing = true;
-    } else {
-      // Cancelar edición: restaurar copia
-      this.services = JSON.parse(JSON.stringify(this.backupServices));
-      this.isEditing = false;
+  constructor(private costService: CostosService){
+
+this.formulario = new FormGroup({
+  p1_with_pool: new FormControl(0),
+  p1_without_pool: new FormControl(0),
+
+  p2_with_pool: new FormControl(0),
+  p2_without_pool: new FormControl(0),
+
+  p3_with_pool: new FormControl(0),
+  p3_without_pool: new FormControl(0),
+
+  p4_with_pool: new FormControl(0),
+  p4_without_pool: new FormControl(0),
+
+  p5_with_pool: new FormControl(0),
+  p5_without_pool: new FormControl(0),
+});
+  }
+
+  ngOninit(): void{
+
+  }
+
+    async onSubmit(){
+      console.log(this.formulario.value);
+    const response = await this.costService.AddCost(this.formulario.value);
+    console.log(response);
+    console.log('🟡 Enviando formulario...');
+    console.log(this.formulario.value);
     }
+
   }
 
-  savePrices() {
-    console.log('Precios actualizados:', this.services);
-    this.backupServices = [];
-    this.isEditing = false;
-  }
-}
+
+
 

@@ -1,0 +1,33 @@
+<form *ngIf="formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <label>P1 con alberca:</label>
+  <input type="number" formControlName="p1_with_pool" />
+
+  <label>P1 sin alberca:</label>
+  <input type="number" formControlName="p1_without_pool" />
+
+  <label>P2 con alberca:</label>
+  <input type="number" formControlName="p2_with_pool" />
+
+  <label>P2 sin alberca:</label>
+  <input type="number" formControlName="p2_without_pool" />
+
+  <label>P3 con alberca:</label>
+  <input type="number" formControlName="p3_with_pool" />
+
+  <label>P3 sin alberca:</label>
+  <input type="number" formControlName="p3_without_pool" />
+
+  <label>P4 con alberca:</label>
+  <input type="number" formControlName="p4_with_pool" />
+
+  <label>P4 sin alberca:</label>
+  <input type="number" formControlName="p4_without_pool" />
+
+  <label>P5 con alberca:</label>
+  <input type="number" formControlName="p5_with_pool" />
+
+  <label>P5 sin alberca:</label>
+  <input type="number" formControlName="p5_without_pool" />
+
+  <button type="submit">Actualizar</button>
+</form>

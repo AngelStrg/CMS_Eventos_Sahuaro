@@ -1,43 +1,56 @@
-<div class="cost-container">
-  <h3>Actualizar costos del salón</h3>
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="form-container">
+  <h2>Costos</h2>
 
-  <form (ngSubmit)="savePrices()">
-    <table>
-      <thead>
-        <tr>
-          <th>Número de Personas</th>
-          <th>Costo con alberca ($)</th>
-          <th>Costo sin alberca ($)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let service of services">
-          <td>{{ service.name }}</td>
-          <td>
-            <input
-              type="number"
-              [(ngModel)]="service.priceWithPool"
-              name="withPool-{{service.id}}"
-              [disabled]="!isEditing"
-              required
-            />
-          </td>
-          <td>
-            <input
-              type="number"
-              [(ngModel)]="service.priceWithoutPool"
-              name="withoutPool-{{service.id}}"
-              [disabled]="!isEditing"
-              required
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <label>
+    Costo de 5 a 25 con alberca:
+    <input type="number" formControlName="p1_with_pool"/>
+  </label>
 
-    <button type="submit" [disabled]="!isEditing">Guardar cambios</button>
-    <button type="button" (click)="toggleEdit()"> {{ isEditing ? 'Cancelar edición' : 'Editar' }}
-  </button>
-  </form>
-</div>
+    <label>
+    Costo de 5 a 25 sin alberca:
+    <input type="number" formControlName="p1_without_pool"/>
+  </label>
 
+    <label>
+    Costo de 26 a 50 con alberca:
+    <input type="number" formControlName="p2_with_pool"/>
+  </label>
+
+    <label>
+    Costo de 26 a 50 sin alberca:
+    <input type="number" formControlName="p2_without_pool"/>
+  </label>
+
+    <label>
+    Costo de 51 a 80 con alberca:
+    <input type="number" formControlName="p3_with_pool"/>
+  </label>
+
+    <label>
+    Costo de 51 a 80 sin alberca:
+    <input type="number" formControlName="p3_without_pool"/>
+  </label>
+
+    <label>
+    Costo de 81 a 100 con alberca:
+    <input type="number" formControlName="p4_with_pool"/>
+  </label>
+
+    <label>
+    Costo de 81 a 100 sin alberca:
+    <input type="number" formControlName="p4_without_pool"/>
+  </label>
+
+    <label>
+    Costo de 101 a 150 con alberca:
+    <input type="number" formControlName="p5_with_pool"/>
+  </label>
+
+    <label>
+    Costo de 101 a 150 sin alberca:
+    <input type="number" formControlName="p5_without_pool"/>
+  </label>
+
+
+  <button type="submit">Guardar lugar</button>
+</form>
