@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dates',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './dates.component.html',
-  styleUrl: './dates.component.css'
+  styleUrls: ['./dates.component.css']
 })
 export class DatesComponent {
-eventos = [
+  eventos = [
     {
       tipo: 'Boda',
       fecha: '2025-06-15',
@@ -26,31 +28,48 @@ eventos = [
     }
   ];
 
-  nuevoEvento = {
-    tipo: '',
-    fecha: '',
-    hora: '',
-    cliente: '',
-    estado: 'Pendiente'
-  };
+  eventosFiltrados = [...this.eventos];
+
+  formularioEvento: FormGroup;
 
   editandoIndex: number | null = null;
 
+  filtro = {
+    tipo: '',
+    fecha: '',
+    estado: ''
+  };
+
+  constructor(private fb: FormBuilder) {
+    this.formularioEvento = this.fb.group({
+      tipo: ['', Validators.required],
+      fecha: ['', Validators.required],
+      hora: ['', Validators.required],
+      cliente: ['', Validators.required],
+      estado: ['Pendiente', Validators.required]
+    });
+  }
+
+  aplicarFiltro() {
+    this.eventosFiltrados = this.eventos.filter(evento => {
+      const coincideTipo = this.filtro.tipo === '' || evento.tipo.toLowerCase().includes(this.filtro.tipo.toLowerCase());
+      const coincideFecha = this.filtro.fecha === '' || evento.fecha === this.filtro.fecha;
+      const coincideEstado = this.filtro.estado === '' || evento.estado === this.filtro.estado;
+      return coincideTipo && coincideFecha && coincideEstado;
+    });
+  }
+
+  limpiarFiltro() {
+    this.filtro = { tipo: '', fecha: '', estado: '' };
+    this.eventosFiltrados = [...this.eventos];
+  }
+
   agregarEvento() {
-    if (
-      this.nuevoEvento.tipo.trim() &&
-      this.nuevoEvento.fecha &&
-      this.nuevoEvento.hora &&
-      this.nuevoEvento.cliente.trim()
-    ) {
-      this.eventos.push({ ...this.nuevoEvento });
-      this.nuevoEvento = {
-        tipo: '',
-        fecha: '',
-        hora: '',
-        cliente: '',
-        estado: 'Pendiente'
-      };
+    if (this.formularioEvento.valid) {
+      const nuevoEvento = this.formularioEvento.value;
+      this.eventos.push(nuevoEvento);
+      this.formularioEvento.reset({ estado: 'Pendiente' });
+      this.aplicarFiltro();
     }
   }
 
@@ -60,11 +79,13 @@ eventos = [
 
   guardarEdicion(index: number) {
     this.editandoIndex = null;
+    this.aplicarFiltro();
   }
 
   eliminarEvento(index: number) {
     this.eventos.splice(index, 1);
     if (this.editandoIndex === index) this.editandoIndex = null;
+    this.aplicarFiltro();
   }
 
   guardarCambios() {

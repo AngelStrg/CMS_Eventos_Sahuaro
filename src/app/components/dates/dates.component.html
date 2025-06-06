@@ -1,6 +1,20 @@
 <div class="tabla-eventos-container">
   <h2>Eventos Programados</h2>
 
+  <!-- Filtros -->
+  <div class="filtros">
+    <input type="text" placeholder="Tipo de evento" [(ngModel)]="filtro.tipo" />
+    <input type="date" [(ngModel)]="filtro.fecha" />
+    <input type="text" placeholder="Nombre del cliente" [(ngModel)]="filtro.cliente" /> <!-- Nuevo campo -->
+    <select [(ngModel)]="filtro.estado">
+      <option value="">Todos los estados</option>
+      <option value="Confirmado">Confirmado</option>
+      <option value="Pendiente">Pendiente</option>
+    </select>
+    <button (click)="aplicarFiltro()">Filtrar</button>
+    <button (click)="limpiarFiltro()">Limpiar</button>
+  </div>
+
   <table class="tabla-eventos">
     <thead>
       <tr>
@@ -14,80 +28,65 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let evento of eventos; let i = index">
+      <tr *ngFor="let evento of eventosFiltrados; let i = index">
         <td>{{ i + 1 }}</td>
-        
-        <!-- Editable si es el que se está editando -->
         <td>
           <input *ngIf="editandoIndex === i" [(ngModel)]="evento.tipo" />
           <span *ngIf="editandoIndex !== i">{{ evento.tipo }}</span>
         </td>
-
         <td>
           <input *ngIf="editandoIndex === i" type="date" [(ngModel)]="evento.fecha" />
           <span *ngIf="editandoIndex !== i">{{ evento.fecha }}</span>
         </td>
-
         <td>
           <input *ngIf="editandoIndex === i" type="time" [(ngModel)]="evento.hora" />
           <span *ngIf="editandoIndex !== i">{{ evento.hora }}</span>
         </td>
-
         <td>
           <input *ngIf="editandoIndex === i" [(ngModel)]="evento.cliente" />
           <span *ngIf="editandoIndex !== i">{{ evento.cliente }}</span>
         </td>
-
         <td>
           <select *ngIf="editandoIndex === i" [(ngModel)]="evento.estado">
             <option value="Confirmado">Confirmado</option>
             <option value="Pendiente">Pendiente</option>
           </select>
-          <span
-            *ngIf="editandoIndex !== i"
-            class="badge"
+          <span *ngIf="editandoIndex !== i" class="badge"
             [ngClass]="{
               'badge-success': evento.estado === 'Confirmado',
               'badge-warning': evento.estado === 'Pendiente'
             }"
-            >{{ evento.estado }}</span
           >
+            {{ evento.estado }}
+          </span>
         </td>
-
         <td class="btn-cell">
-          <button
-            *ngIf="editandoIndex !== i"
-            class="btn editar-btn"
-            (click)="editarEvento(i)"
-          >
+          <button *ngIf="editandoIndex !== i" class="btn editar-btn" (click)="editarEvento(i)">
             Editar
           </button>
-          <button
-            *ngIf="editandoIndex === i"
-            class="btn guardar-btn"
-            (click)="guardarEdicion(i)"
-          >
+          <button *ngIf="editandoIndex === i" class="btn guardar-btn" (click)="guardarEdicion(i)">
             Guardar
           </button>
-          <button class="btn eliminar-btn" (click)="eliminarEvento(i)">
-            Eliminar
-          </button>
+          <button class="btn eliminar-btn" (click)="eliminarEvento(i)">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
 
+  <!-- Formulario Reactivo para nuevo evento -->
   <div class="nuevo-item">
     <h3>Añadir nuevo evento</h3>
-    <input [(ngModel)]="nuevoEvento.tipo" placeholder="Tipo de evento" />
-    <input type="date" [(ngModel)]="nuevoEvento.fecha" />
-    <input type="time" [(ngModel)]="nuevoEvento.hora" />
-    <input [(ngModel)]="nuevoEvento.cliente" placeholder="Cliente" />
-    <select [(ngModel)]="nuevoEvento.estado">
-      <option value="Confirmado">Confirmado</option>
-      <option value="Pendiente">Pendiente</option>
-    </select>
-    <button class="add-btn" (click)="agregarEvento()">Añadir</button>
+    <form [formGroup]="formularioEvento" (ngSubmit)="agregarEvento()">
+      <input formControlName="tipo" placeholder="Tipo de evento" />
+      <input type="date" formControlName="fecha" />
+      <input type="time" formControlName="hora" />
+      <input formControlName="cliente" placeholder="Cliente" />
+      <select formControlName="estado">
+        <option value="Confirmado">Confirmado</option>
+        <option value="Pendiente">Pendiente</option>
+      </select>
+      <button type="submit" [disabled]="formularioEvento.invalid" class="add-btn">Añadir</button>
+    </form>
   </div>
 
   <button class="guardar-btn2" (click)="guardarCambios()">Guardar cambios</button>
