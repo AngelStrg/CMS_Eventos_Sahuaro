@@ -25,7 +25,7 @@ export class CostosService {
   async getFirstCost(): Promise<{ data: Cost | undefined; docId?: string }> {
     const snapshot = await getDocs(collection(this.firestore, 'cost'));
     if (snapshot.empty) {
-      return { data: undefined }; // no hay documentos
+      return { data: undefined };
     }
     const docSnap = snapshot.docs[0];
     return { data: docSnap.data() as Cost, docId: docSnap.id };

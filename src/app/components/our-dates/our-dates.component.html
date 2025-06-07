@@ -1,0 +1,88 @@
+<div class="tabla-eventos-container">
+  <h2>Lista de Eventos</h2>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <input type="text" placeholder="Tipo de evento" [(ngModel)]="filtro.event" (input)="aplicarFiltro()" />
+    <input type="date" [(ngModel)]="filtro.date" (change)="aplicarFiltro()" />
+    <input type="time" [(ngModel)]="filtro.hour" (change)="aplicarFiltro()" />
+    <input type="text" placeholder="Cliente" [(ngModel)]="filtro.client" (input)="aplicarFiltro()" />
+    <select [(ngModel)]="filtro.status" (change)="aplicarFiltro()">
+      <option value="">Todos</option>
+      <option value="Pendiente">Pendiente</option>
+      <option value="Confirmado">Confirmado</option>
+      <option value="Cancelado">Cancelado</option>
+    </select>
+    <button (click)="limpiarFiltro()">Limpiar</button>
+  </div>
+
+  <!-- Tabla de eventos -->
+  <table class="tabla-eventos">
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Cliente</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let date of filteredDates">
+        <td>{{ date.event }}</td>
+        <td>{{ date.date }}</td>
+        <td>{{ date.hour }}</td>
+        <td>{{ date.client }}</td>
+        <td>
+          <span
+            class="badge"
+            [ngClass]="{
+              'badge-success': date.status === 'Confirmado',
+              'badge-warning': date.status === 'Pendiente'
+            }"
+          >
+            {{ date.status }}
+          </span>
+        </td>
+        <td class="btn-cell">
+          <button class="btn editar-btn" (click)="cargarParaEditar(date)">Editar</button>
+          <button class="btn eliminar-btn" (click)="date.id && deleteDate(date.id)">Eliminar</button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Formulario actualizar evento -->
+  <h3 *ngIf="selectedDateId">Actualizar evento</h3>
+  <form *ngIf="selectedDateId" [formGroup]="updateForm" (ngSubmit)="actualizarEvento()" class="nuevo-item">
+    <input formControlName="event" placeholder="Tipo de evento" />
+    <input formControlName="date" type="date" />
+    <input formControlName="hora" type="time" />
+    <input formControlName="client" placeholder="Cliente" />
+    <select formControlName="status">
+      <option value="Pendiente">Pendiente</option>
+      <option value="Confirmado">Confirmado</option>
+      <option value="Cancelado">Cancelado</option>
+    </select>
+    <button type="submit" class="guardar-btn2">Guardar Cambios</button>
+  </form>
+</div>
+
+  <!-- Formulario nuevo evento -->
+  <div class="tabla-eventos-container">
+  <h3>Nuevo Evento</h3>
+  <form [formGroup]="newForm" (ngSubmit)="agregarEvento()" class="nuevo-item">
+    <input formControlName="event" placeholder="Tipo de evento" />
+    <input formControlName="date" type="date" />
+    <input formControlName="hora" type="time" />
+    <input formControlName="client" placeholder="Cliente" />
+    <select formControlName="status">
+      <option value="Pendiente">Pendiente</option>
+      <option value="Confirmado">Confirmado</option>
+      <option value="Cancelado">Cancelado</option>
+    </select>
+    <button type="submit" class="add-btn">Añadir evento</button>
+  </form>
+</div>
