@@ -22,18 +22,17 @@ export class CostosService {
 
        }
 
-        // 🔹 Obtener el primer documento con su ID
-async getFirstCost(): Promise<{ data: any }> {
-  const docRef = doc(this.firestore, 'costos/costos-actuales');
-  const docSnap = await getDoc(docRef);
-  return { data: docSnap.data() };
-}
-
-  // 🔹 Actualizar el primer documento sin pedir ID
-  async updateFirstCost(cost: Partial<Cost>) {
+  async getFirstCost(): Promise<{ data: Cost | undefined; docId?: string }> {
     const snapshot = await getDocs(collection(this.firestore, 'cost'));
+    if (snapshot.empty) {
+      return { data: undefined }; // no hay documentos
+    }
     const docSnap = snapshot.docs[0];
-    const docRef = doc(this.firestore, 'cost', docSnap.id);
+    return { data: docSnap.data() as Cost, docId: docSnap.id };
+  }
+
+  async updateFirstCost(cost: Partial<Cost>, docId: string) {
+    const docRef = doc(this.firestore, 'cost', docId);
     return updateDoc(docRef, cost);
   }
 }

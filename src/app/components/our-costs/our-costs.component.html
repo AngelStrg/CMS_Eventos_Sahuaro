@@ -1,33 +1,35 @@
-<form *ngIf="formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()">
-  <label>P1 con alberca:</label>
-  <input type="number" formControlName="p1_with_pool" />
+<div *ngIf="cargando">Cargando datos...</div>
 
-  <label>P1 sin alberca:</label>
-  <input type="number" formControlName="p1_without_pool" />
+<form *ngIf="!cargando && formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <label for="p1_with_pool">P1 con alberca:</label>
+  <input id="p1_with_pool" type="number" formControlName="p1_with_pool" />
 
-  <label>P2 con alberca:</label>
-  <input type="number" formControlName="p2_with_pool" />
+  <label for="p1_without_pool">P1 sin alberca:</label>
+  <input id="p1_without_pool" type="number" formControlName="p1_without_pool" />
 
-  <label>P2 sin alberca:</label>
-  <input type="number" formControlName="p2_without_pool" />
+  <label for="p2_with_pool">P2 con alberca:</label>
+  <input id="p2_with_pool" type="number" formControlName="p2_with_pool" />
 
-  <label>P3 con alberca:</label>
-  <input type="number" formControlName="p3_with_pool" />
+  <label for="p2_without_pool">P2 sin alberca:</label>
+  <input id="p2_without_pool" type="number" formControlName="p2_without_pool" />
 
-  <label>P3 sin alberca:</label>
-  <input type="number" formControlName="p3_without_pool" />
+  <label for="p3_with_pool">P3 con alberca:</label>
+  <input id="p3_with_pool" type="number" formControlName="p3_with_pool" />
 
-  <label>P4 con alberca:</label>
-  <input type="number" formControlName="p4_with_pool" />
+  <label for="p3_without_pool">P3 sin alberca:</label>
+  <input id="p3_without_pool" type="number" formControlName="p3_without_pool" />
 
-  <label>P4 sin alberca:</label>
-  <input type="number" formControlName="p4_without_pool" />
+  <label for="p4_with_pool">P4 con alberca:</label>
+  <input id="p4_with_pool" type="number" formControlName="p4_with_pool" />
 
-  <label>P5 con alberca:</label>
-  <input type="number" formControlName="p5_with_pool" />
+  <label for="p4_without_pool">P4 sin alberca:</label>
+  <input id="p4_without_pool" type="number" formControlName="p4_without_pool" />
 
-  <label>P5 sin alberca:</label>
-  <input type="number" formControlName="p5_without_pool" />
+  <label for="p5_with_pool">P5 con alberca:</label>
+  <input id="p5_with_pool" type="number" formControlName="p5_with_pool" />
+
+  <label for="p5_without_pool">P5 sin alberca:</label>
+  <input id="p5_without_pool" type="number" formControlName="p5_without_pool" />
 
   <button type="submit">Actualizar</button>
 </form>
