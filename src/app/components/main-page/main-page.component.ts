@@ -8,11 +8,13 @@ import { DatesComponent } from "../dates/dates.component";
 import { MediaComponent } from "../media/media.component";
 import { StockComponent } from "../stock/stock.component";
 import { Title } from '@angular/platform-browser';
+import { OurServicesComponent } from '../our-services/our-services.component';
+import { AdditionalServicesComponent } from '../additional-services/additional-services.component';
 
 @Component({
   selector: 'app-main-page',
   imports: [RouterOutlet, RouterModule, CommonModule, LoginEventosSahuaroComponent, NavBarComponent, CostComponent,
-    DatesComponent, MediaComponent, StockComponent],
+    DatesComponent, MediaComponent, StockComponent, OurServicesComponent, AdditionalServicesComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })

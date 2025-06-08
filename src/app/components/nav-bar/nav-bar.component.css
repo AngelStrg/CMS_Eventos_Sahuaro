@@ -1,0 +1,10 @@
+.navbar-nav .nav-link {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  background-color: #14532d; /* Verde más oscuro */
+  border-radius: 5px;
+}

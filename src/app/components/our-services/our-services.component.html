@@ -1,0 +1,34 @@
+<section class="container">
+
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="form-container">
+  <h2>Nuevo servicio</h2>
+
+  <label>
+    Nombre del servicio:
+    <input type="text" formControlName="id" placeholder="Nombre del servicio" />
+  </label>
+
+  <label>
+    Descripción:
+    <input type="text" formControlName="descripcion" placeholder="Breve descripción" />
+  </label>
+
+  <label>
+    Imagen (URL):
+    <input type="text" formControlName="imagen" placeholder="https://..." />
+  </label>
+
+  <button type="submit">Guardar servicio</button>
+</form>
+
+<div class="card-container">
+  <div *ngFor="let servicio of servicios" class="place-card">
+    <img [src]="servicio.imagen" alt="Imagen de {{ servicio.id }}" class="place-image" />
+    <div class="card-content">
+      <h3>{{ servicio.id }}</h3>
+      <p>{{ servicio.descripcion }}</p>
+      <button class="btn" (click)="onClickDelete(servicio)">Borrar</button>
+    </div>
+  </div>
+</div>
+</section>

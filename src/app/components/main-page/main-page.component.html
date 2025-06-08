@@ -1,12 +1,25 @@
 <main>
   <a routerLink="['/']"></a>
   <app-nav-bar></app-nav-bar>
-    <h1 id="title">Bienvenido</h1>
   <section class="container">
-    <button [routerLink]="['/app-our-cost']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Costos</button>
-    <button [routerLink]="['/app-media']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Imagenes</button>
-    <button [routerLink]="['/app-our-dates']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Fechas</button>
-    <button [routerLink]="['/app-stock']" routerLinkActive="routerLinkActive" type="button" class="btn btn-primary btn-lg">Inventario</button>
+    <div class="dashboard">
+      <h1>Bienvenido al Salón de Eventos Sahuaro</h1>
+      <p>Donde cada momento se convierte en un recuerdo inolvidable.</p>
+      <div class="buttons">
+        <button [routerLink]="['/app-our-cost']" routerLinkActive="routerLinkActive" type="button"
+          class="btn btn-primary btn-lg">Costos</button>
+        <button [routerLink]="['/app-media']" routerLinkActive="routerLinkActive" type="button"
+          class="btn btn-primary btn-lg">Imagenes</button>
+        <button [routerLink]="['/app-our-dates']" routerLinkActive="routerLinkActive" type="button"
+          class="btn btn-primary btn-lg">Fechas</button>
+        <button [routerLink]="['/app-stock']" routerLinkActive="routerLinkActive" type="button"
+          class="btn btn-primary btn-lg">Inventario</button>
+        <button [routerLink]="['/app-our-services']" routerLinkActive="routerLinkActive" type="button"
+          class="btn btn-primary btn-lg">Servicios</button>
+        <button [routerLink]="['/app-additional-services']" routerLinkActive="routerLinkActive" type="button"
+          class="btn btn-primary btn-lg">Servicios adicionales</button>
+      </div>
+    </div>
   </section>
 
 </main>
