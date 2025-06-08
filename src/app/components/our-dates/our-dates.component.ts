@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DatesService } from '../../services/dates.service';
 import { Dates } from '../../models/dates.interface';
 import { FormsModule } from '@angular/forms';
+import { addDoc, collection, collectionData, deleteDoc, doc, Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-our-dates',
@@ -13,124 +14,112 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./our-dates.component.css']
 })
 export class OurDatesComponent implements OnInit {
-  dates: Dates[] = [];
-  filteredDates: Dates[] = [];
+  eventos: Dates[] = [];
+  form: FormGroup;
 
-  newForm: FormGroup;
-  updateForm: FormGroup;
-  selectedDateId: string | null = null;
+  tiposEvento = ['Cumpleaños', 'Bautizo', 'Primera Comunión', 'Fiesta', 'Evento Empresarial', 'Otro'];
+  rangosPersonas = ['1-25', '26-50', '51-75', '76-100', '101+'];
+  opcionesAlberca = ['Con alberca', 'Sin alberca'];
+  opcionesExtras = ['Inflable Azul', 'Inflable Rosa', 'Palomera', 'Smoothies'];
+  coloresMantel = ['#B5818D', '#FEC7B4', '#FFF7D4', '#97E7E1', '#A1EEBD'];
 
-  filtro = {
-    event: '',
-    date: '',
-    hour: '',
-    client: '',
-    status: ''
-  };
+  horasInicioOptions = Array.from({ length: 13 }, (_, i) => i + 8); // 8 a 20
+  horasExtrasOptions: number[] = [];
 
-  constructor(
-    private fb: FormBuilder,
-    private datesService: DatesService
-  ) {
-    this.newForm = this.fb.group({
-      event: ['', Validators.required],
-      date: ['', Validators.required],
-      hora: ['', Validators.required],
-      client: ['', Validators.required],
-      status: ['Pendiente', Validators.required]
-    });
+  horaFinCalculada: string = '';
 
-    this.updateForm = this.fb.group({
-      event: ['', Validators.required],
-      date: ['', Validators.required],
-      hora: ['', Validators.required],
-      client: ['', Validators.required],
-      status: ['Pendiente', Validators.required]
+  constructor(private firestore: Firestore, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      nombre: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      telefono: ['', Validators.required],
+      fecha: ['', Validators.required],
+      personas: ['', Validators.required],
+      tipoEvento: ['', Validators.required],
+      alberca: ['', Validators.required],
+      horaInicio: ['', Validators.required],
+      horasExtras: [0],
+      horaFin: [''],
+      colorMantel: ['', Validators.required],
+      extras: [[]]
     });
   }
 
   ngOnInit(): void {
-    this.datesService.getDate().subscribe((data: any) => {
-      this.dates = data.map((item: any) => ({
-        id: item.id,
-        event: item.event,
-        date: item.date,
-        hour: item.hora,
-        client: item.client,
-        status: item.status
-      }));
-      this.filteredDates = [...this.dates];
+    const eventosRef = collection(this.firestore, 'eventos');
+    collectionData(eventosRef, { idField: 'id' }).subscribe(data => {
+      this.eventos = data as Dates[];
+    });
+
+    this.form.get('horaInicio')?.valueChanges.subscribe((hora: number) => {
+      this.actualizarHorasExtrasDisponibles(hora);
+      this.form.patchValue({ horasExtras: 0 }); // reinicia extras al cambiar hora
+      this.actualizarHoraFin();
+    });
+
+    this.form.get('horasExtras')?.valueChanges.subscribe(() => this.actualizarHoraFin());
+  }
+
+  actualizarHorasExtrasDisponibles(horaInicio: number) {
+    if (horaInicio !== null) {
+      const horaLimite = 26; // 2 a.m. = 26 (en base 24h extendida)
+      const finBase = horaInicio + 6; // 6 horas de base
+      const extrasDisponibles = Math.max(0, horaLimite - finBase);
+      this.horasExtrasOptions = Array.from({ length: extrasDisponibles + 1 }, (_, i) => i);
+    }
+  }
+
+  actualizarHoraFin() {
+    const horaInicio = +this.form.value.horaInicio;
+    const horasExtras = +this.form.value.horasExtras || 0;
+
+    const duracionTotal = 6 + horasExtras;
+    let horaFin = horaInicio + duracionTotal;
+
+    if (horaFin >= 24) horaFin -= 24;
+
+    this.horaFinCalculada = this.formatHora(horaFin);
+    this.form.patchValue({ horaFin: this.horaFinCalculada });
+  }
+
+  formatHora(hora: number): string {
+    const periodo = hora >= 12 && hora < 24 ? 'pm' : 'am';
+    const hora12 = hora % 12 === 0 ? 12 : hora % 12;
+    return `${hora12}:00 ${periodo}`;
+  }
+
+  guardarEvento() {
+    if (this.form.invalid) {
+      alert('Por favor, complete todos los campos requeridos correctamente.');
+      return;
+    }
+
+    const data = this.form.value;
+    data.horaFin = this.horaFinCalculada;
+
+    const eventosRef = collection(this.firestore, 'eventos');
+    addDoc(eventosRef, data).then(() => {
+      this.form.reset({ horasExtras: 0 });
+      this.horaFinCalculada = '';
+      this.horasExtrasOptions = [];
     });
   }
 
-  aplicarFiltro() {
-  this.filteredDates = this.dates.filter(date => {
-    return (
-      (this.filtro.event === '' || date.event.toLowerCase().includes(this.filtro.event.toLowerCase())) &&
-      (this.filtro.date === '' || date.date === this.filtro.date) &&
-      (this.filtro.hour === '' || date.hour === this.filtro.hour) &&
-      (this.filtro.client === '' || date.client.toLowerCase().includes(this.filtro.client.toLowerCase())) &&
-      (this.filtro.status === '' || date.status === this.filtro.status)
-    );
-  });
-}
-
-  limpiarFiltro() {
-    this.filtro = {
-      event: '',
-      date: '',
-      hour: '',
-      client: '',
-      status: ''
-    };
-    this.filteredDates = [...this.dates];
+  eliminarEvento(id: string) {
+    const eventoRef = doc(this.firestore, `eventos/${id}`);
+    deleteDoc(eventoRef);
   }
 
-  async agregarEvento() {
-    if (this.newForm.valid) {
-      const nuevo = this.newForm.value;
-      await this.datesService.AddDate(nuevo);
-      this.newForm.reset({ status: 'Pendiente' });
+  onExtraChange(event: any) {
+    const value = event.target.value;
+    const checked = event.target.checked;
+    const extras: string[] = this.form.value.extras || [];
+
+    if (checked && !extras.includes(value)) {
+      this.form.patchValue({ extras: [...extras, value] });
+    } else if (!checked) {
+      this.form.patchValue({ extras: extras.filter(e => e !== value) });
     }
   }
-
-  cargarParaEditar(evento: Dates) {
-    this.selectedDateId = evento.id!;
-    this.updateForm.patchValue({
-      event: evento.event,
-      date: evento.date,
-      hora: evento.hour,
-      client: evento.client,
-      status: evento.status
-    });
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }
-
-  async actualizarEvento() {
-    if (this.selectedDateId && this.updateForm.valid) {
-      const actualizado = this.updateForm.value;
-      await this.datesService.updateDate(this.selectedDateId, actualizado);
-      this.selectedDateId = null;
-      this.updateForm.reset({ status: 'Pendiente' });
-    }
-  }
-
-async deleteDate(id: string) {
-  if (confirm('¿Seguro que quieres eliminar este evento?')) {
-    try {
-      await this.datesService.deleteDate(id);
-      // Elimina localmente para actualizar la UI
-      this.dates = this.dates.filter(date => date.id !== id);
-      this.aplicarFiltro();
-      if (this.selectedDateId === id) {
-        this.selectedDateId = null;
-        this.updateForm.reset();
-      }
-      alert('Evento eliminado correctamente');
-    } catch (error) {
-      console.error('Error eliminando el evento:', error);
-      alert('Error eliminando el evento');
-    }
-  }
-}
 }
