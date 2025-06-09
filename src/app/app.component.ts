@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { CostComponent } from './components/cost/cost.component';
 @Component({
   selector: 'app-root',
-  imports: [ LoginEventosSahuaroComponent, NavBarComponent, CostComponent, RouterOutlet],
+  imports: [ LoginEventosSahuaroComponent,NavBarComponent,CostComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
