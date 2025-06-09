@@ -5,13 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CostosService } from '../../services/costos.service';
 import { Cost } from '../../models/cost.interface';
-
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-cost',
   templateUrl: './cost.component.html',
   styleUrls: ['./cost.component.css'],
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, NavBarComponent],
   standalone: true
 })
 export class CostComponent {
