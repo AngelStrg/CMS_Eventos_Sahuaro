@@ -3,11 +3,12 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { OurServicesService } from '../../services/our-services.service';
 import { OurService } from '../../models/our-services';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-our-services',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NavBarComponent],
   templateUrl: './our-services.component.html',
   styleUrls: ['./our-services.component.css']
 })
