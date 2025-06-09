@@ -1,3 +1,33 @@
+<h2 class="title">Filtros</h2>
+<div class="filtros">
+  <input type="text" placeholder="Nombre" [(ngModel)]="filtros.nombre" (input)="filtrarEventos()" />
+  <input type="date" placeholder="Fecha" [(ngModel)]="filtros.fecha" (change)="filtrarEventos()" />
+  <input type="text" placeholder="Tipo" [(ngModel)]="filtros.tipo" (input)="filtrarEventos()" />
+  <input type="text" placeholder="Teléfono" [(ngModel)]="filtros.telefono" (input)="filtrarEventos()" />
+  <input type="text" placeholder="Correo" [(ngModel)]="filtros.correo" (input)="filtrarEventos()" />
+</div>
+
+<h2 class="title">Eventos Registrados</h2>
+<div *ngFor="let evento of eventosFiltrados" class="evento">
+  <!-- Aquí va tu código de cada evento igual -->
+  <p><strong>Nombre:</strong> {{ evento.nombre }} {{ evento.apellidos }}</p>
+  <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+  <p><strong>Tipo:</strong> {{ evento.tipoEvento }}</p>
+  <p><strong>Inicio:</strong> {{ evento.horaInicio + ':00' }}</p>
+  <p><strong>Fin:</strong> {{ evento.horaFin }}</p>
+  <p><strong>Numero de personas:</strong>{{evento.personas}}</p>
+  <p><strong>Telefono:</strong>{{evento.telefono}}</p>
+  <p><strong>Correo:</strong>{{evento.correo}}</p>
+  <p><strong>Color Mantel:</strong>{{evento.colorMantel}}</p>
+  <p><strong>Alberca:</strong>{{evento.alberca}}</p>
+  <p><strong>Extras:</strong>{{evento.extras}}</p>
+
+  <div class="botones-acciones">
+    <button class="btn-editar" (click)="editarEvento(evento)">Editar</button>
+    <button class="btn-eliminar" (click)="eliminarEvento(evento.id!)">Eliminar</button>
+  </div>
+</div>
+
 <form [formGroup]="form" (ngSubmit)="guardarEvento()" class="formulario">
   <h2>Registrar evento</h2>
 
@@ -34,27 +64,35 @@
     <option *ngFor="let opcion of opcionesAlberca" [value]="opcion">{{ opcion }}</option>
   </select>
 
-  <label>Hora de inicio:</label>
-  <select formControlName="horaInicio">
-    <option value="" disabled selected>Seleccione</option>
-    <option *ngFor="let hora of horasInicioOptions" [value]="hora">
-      {{ formatHora(hora) }}
-    </option>
-  </select>
-
-  <!-- Mostrar solo si hay horas extra disponibles (más de 0 opciones) -->
-  <div *ngIf="horasExtrasOptions.length > 1">
-    <label>Horas extra:</label>
-    <select formControlName="horasExtras">
-      <option *ngFor="let extra of horasExtrasOptions" [value]="extra">
-        {{ extra }} {{ extra === 1 ? 'hora' : 'horas' }}
-      </option>
+  <!-- BLOQUE DE HORAS INTEGRADO -->
+  <div class="horas-registro">
+    <label>Hora de inicio:</label>
+    <select formControlName="horaInicio" (change)="actualizarHoraFin()">
+      <option value="" disabled selected>Seleccione</option>
+      <option *ngFor="let hora of horasInicioOptions" [value]="hora">
+  {{ hora + ':00' }}
+</option>
     </select>
+
+      <!-- Selección de Horas Extras -->
+  <div *ngIf="horaInicio">
+    <label for="horasExtras" class="block font-semibold mb-1">Horas Extras:</label>
+    <select
+  id="horasExtras"
+  [value]="horasExtras"
+  (change)="onHorasExtrasChange($event)"
+  class="w-full border rounded-lg px-3 py-2"
+>
+  <option *ngFor="let extra of obtenerHorasExtraDisponibles()" [value]="extra">
+    {{ extra }}
+  </option>
+</select>
   </div>
 
-  <div *ngIf="horaFinCalculada">
-    <label>Hora de fin:</label>
-    <input type="text" [value]="horaFinCalculada" disabled />
+     <!-- Mostrar Hora Fin -->
+  <div *ngIf="horaFin">
+    <p class="font-semibold">Hora de Fin: <span class="text-blue-600">{{ horaFin }}</span></p>
+  </div>
   </div>
 
   <label>Color de mantel:</label>
@@ -76,17 +114,11 @@
     {{ extra }}
   </div>
 
-  <button type="submit" [disabled]="form.invalid">Guardar</button>
+  <button type="submit" [disabled]="form.invalid">
+  {{ editando ? 'Actualizar' : 'Guardar' }}
+</button>
+<button *ngIf="editando" type="button" (click)="cancelarEdicion()">Cancelar</button>
 </form>
 
 <hr />
 
-<h2>Eventos Registrados</h2>
-<div *ngFor="let evento of eventos" class="evento">
-  <p><strong>Nombre:</strong> {{ evento.nombre }} {{ evento.apellidos }}</p>
-  <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
-  <p><strong>Tipo:</strong> {{ evento.tipoEvento }}</p>
-  <p><strong>Inicio:</strong> {{ formatHora(+evento.horaInicio) }}</p>
-  <p><strong>Fin:</strong> {{ evento.horaFin }}</p>
-  <button (click)="eliminarEvento(evento.id!)">Eliminar</button>
-</div>

@@ -1,230 +1,205 @@
-.tabla-eventos-container {
-  background-color: transparent; /* fondo eliminado */
-  padding: 30px;
-  border-radius: 15px;
-  color: #3b4b23; /* mantengo texto en verde oscuro para contraste */
-  max-width: 1000px;
-  margin: auto;
+/* Contenedor general */
+body {
+  background-color: #F5F7F2;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  /* elimino sombra para simplicidad, pero la puedes dejar si quieres */
-  /* box-shadow: 0 4px 10px rgba(109, 154, 69, 0.2); */
+  color: #6D9A45;  /* Color de letra principal */
+  margin: 0;
+  padding: 20px;
 }
 
-h2, h3 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #4b6b2f;
-}
-
-/* resto igual */
-.tabla-eventos {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #ffffff;
-  color: #3b4b23;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(109, 154, 69, 0.15);
-}
-
-.tabla-eventos th, .tabla-eventos td {
-  padding: 8px 12px;
-  text-align: left;
-  border-bottom: 1px solid #c7d4a3;
-  vertical-align: middle;
-  max-width: 140px;
-  overflow: hidden;
-}
-
-.tabla-eventos thead th {
-  background-color: #d1e0b8;
-  font-weight: 600;
-  color: #3b4b23;
-}
-
-.tabla-eventos tbody tr:nth-child(odd) {
-  background-color: #f6faee;
-}
-
-.tabla-eventos input[type="text"],
-.tabla-eventos input[type="date"],
-.tabla-eventos input[type="time"],
-.tabla-eventos select {
-  width: 100px;
-  max-width: 100%;
-  padding: 4px 6px;
-  font-size: 12px;
-  border: 1px solid #9db969;
-  border-radius: 4px;
-  box-sizing: border-box;
-  height: 28px;
-  color: #3b4b23;
-  background-color: #f4f9e8;
-}
-
-/* badges y botones igual, con colores basados en #6D9A45 */
-
-.badge {
-  padding: 4px 10px;
+/* Formularios y bloques */
+.formulario, .evento {
+  background: white;
+  box-shadow: 0 2px 8px rgb(109 154 69 / 0.15);
   border-radius: 8px;
-  font-size: 13px;
-  font-weight: bold;
-  white-space: nowrap;
+  max-width: 720px; /* Más ancho */
+  margin: 0 auto 30px auto;
+  padding: 24px 32px;
+  color: #6D9A45;
 }
 
-.badge-success {
-  background-color: #6d9a45;
-  color: #fff;
-}
-
-.badge-warning {
-  background-color: #FA7D00;
-  color: #3b4b23;
-}
-
-.btn-cell {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 4px 8px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  white-space: nowrap;
-  color: #3b4b23;
-  background-color: #d4e3b5;
-}
-
-.editar-btn {
-  background-color: #b5ca7d;
-  color: #2f3b16;
-}
-
-.editar-btn:hover {
-  background-color: #94ae53;
-  color: #fff;
-}
-
-.eliminar-btn {
-  background-color: #f2b5b8;
-  color: #842029;
-}
-
-.eliminar-btn:hover {
-  background-color: #e88a8d;
-  color: #fff;
-}
-
-.guardar-btn {
-  background-color: #a5be6a;
-  color: #1a3e1c;
-  font-weight: bold;
-  padding: 6px 10px;
-  border-radius: 5px;
-  border: none;
-}
-
-.guardar-btn2 {
-  background-color: #c5d99a;
-  width: 100%;
-  margin-top: 15px;
-  color: #3b4b23;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-}
-
-.guardar-btn:hover {
-  background-color: #7f9841;
-  color: #fff;
-}
-
-.nuevo-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 25px;
-}
-
-.nuevo-item input, .nuevo-item select {
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
-  background-color: #f4f9e8;
-  color: #3b4b23;
-}
-
-.add-btn {
-  background-color: #c5d99a;
-  width: 100%;
-  margin-top: 15px;
-  color: #3b4b23;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-}
-
-.add-btn:hover {
-  background-color: #94ae53;
-  color: #fff;
-}
-
-.filtros {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.filtros input[type="text"],
-.filtros input[type="date"],
-.filtros select {
-  padding: 6px 8px;
-  font-size: 14px;
-  border: 1px solid #9db969;
-  border-radius: 4px;
-  min-width: 150px;
-  background-color: #f4f9e8;
-  color: #3b4b23;
-}
-
-.filtros button {
-  padding: 7px 14px;
-  background-color: #b5ca7d;
-  color: #2f3b16;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* Etiquetas */
+label {
+  display: block;
   font-weight: 600;
+  margin-bottom: 6px;
+  color: #6D9A45;  /* Letras en verde principal */
+}
+
+/* Inputs y selects */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #6D9A45;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #6D9A45;
+  transition: border-color 0.3s ease;
+  background-color: #fefefb; /* un blanco muy suave */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: #D9A441;
+  outline: none;
+  box-shadow: 0 0 6px #D9A441aa;
+}
+
+/* Botones generales */
+button {
+  background-color: #6D9A45;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 16px;
+}
+
+button:hover:not(:disabled) {
+  background-color: #4A7C32;
+}
+
+button:disabled {
+  background-color: #A9C89E;
+  cursor: not-allowed;
+}
+
+/* Listado de eventos */
+.evento {
+  background-color: #F9FFF4;
+  border-left: 6px solid #6D9A45;
+  padding: 16px 20px;
+  border-radius: 6px;
+  color: #6D9A45;
+}
+
+.evento p {
+  margin: 6px 0;
+}
+
+/* Botones dentro de .evento - evitar que la regla general afecte los específicos */
+.evento button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.filtros button:hover {
-  background-color: #94ae53;
-  color: #fff;
+/* Botón Editar (verde) */
+.evento .btn-editar {
+  background-color: #4caf50 !important; /* verde */
+  color: white !important;
 }
 
-@media (max-width: 600px) {
-  .filtros {
-    flex-direction: column;
-    align-items: stretch;
-  }
+.evento .btn-editar:hover {
+  background-color: #45a049 !important;
+}
 
-  .filtros input[type="text"],
-  .filtros input[type="date"],
-  .filtros select,
-  .filtros button {
-    min-width: 100%;
+/* Botón Eliminar (rojo) */
+.evento .btn-eliminar {
+  background-color: #f44336 !important; /* rojo */
+  color: white !important;
+}
+
+.evento .btn-eliminar:hover {
+  background-color: #d32f2f !important;
+}
+
+/* Mensajes de hora fin */
+p.font-semibold {
+  color: #6D9A45;
+  font-weight: 700;
+}
+
+/* BLOQUE HORAS INTEGRADO */
+.horas-registro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.horas-registro label {
+  flex-basis: 100%;
+  color: #6D9A45;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* Selects e input hora */
+.horas-registro select {
+  flex: 1 1 45%;
+  min-width: 140px;
+  padding: 10px 12px;
+  border: 2px solid #6D9A45;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #6D9A45;
+  background-color: #fefefb;
+  transition: border-color 0.3s ease;
+}
+
+.horas-registro input[disabled] {
+  flex: 1 1 45%;
+  min-width: 140px;
+  padding: 10px 12px;
+  border: 2px solid #6D9A45;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #e9f1d5;
+  color: #6D9A45;
+}
+
+.horas-registro select:focus,
+.horas-registro input:focus {
+  border-color: #D9A441;
+  outline: none;
+  box-shadow: 0 0 6px #D9A441aa;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  body {
+    padding: 10px;
   }
+  .formulario, .evento {
+    max-width: 100%;
+    padding: 20px;
+  }
+  .horas-registro select,
+  .horas-registro input[disabled] {
+    flex-basis: 100%;
+  }
+}
+
+/* Contenedor de botones para separar y espaciar */
+.botones-acciones {
+  margin-top: 8px;
+  display: flex;
+  gap: 16px; /* espacio entre botones */
+}
+
+.filtros input {
+  max-width: 80%;
+  margin: 8px 0;
+  margin-left: 200px;
+  margin-right: 200px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.title{
+  margin-top: 20px;
+  margin-left: 200px;
 }
