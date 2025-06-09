@@ -7,6 +7,8 @@ import { MediaComponent } from './components/media/media.component';
 import { StockComponent } from './components/stock/stock.component';
 import { OurCostsComponent } from './components/our-costs/our-costs.component';
 import { OurDatesComponent } from './components/our-dates/our-dates.component';
+import { OurServicesComponent } from './components/our-services/our-services.component';
+import { AdditionalServicesComponent } from './components/additional-services/additional-services.component';
 
 export const routes: Routes = [
     { path: '', component: LoginEventosSahuaroComponent, title: 'main' },
@@ -15,4 +17,6 @@ export const routes: Routes = [
     { path: 'app-our-cost', component: OurCostsComponent, title: 'cost' },
     { path: 'app-our-dates', component: OurDatesComponent, title: 'dates' },
     {path: 'app-stock', component: StockComponent, title: 'stock' },
+    {path: 'app-our-services', component: OurServicesComponent, title: 'our-services' },
+    {path: 'app-additional-services', component: AdditionalServicesComponent, title: 'app-additional-services' },
 ];
