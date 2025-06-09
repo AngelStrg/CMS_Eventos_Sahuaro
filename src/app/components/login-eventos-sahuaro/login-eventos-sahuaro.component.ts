@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule,Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login-eventos-sahuaro',
@@ -15,25 +16,32 @@ export class LoginEventosSahuaroComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
+  constructor(
+    private titleService: Title,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.titleService.setTitle('Inicio de sesión');
+  }
+
   onSubmit(form: NgForm) {
-    if (form.invalid) return;
+  if (form.invalid) return;
 
-    const { email, password } = form.value;
+  const { email, password } = form.value;
 
-    if (email === 'admin@sahuaro.com' && password === '123456') {
+  this.authService.login(email, password)
+    .then(() => {
       this.successMessage = 'Inicio de sesión exitoso';
       this.errorMessage = '';
-      console.log('Sesión iniciada correctamente');
-      // Aquí puedes redirigir: this.router.navigate(['/dashboard']);
-    } else {
+      this.router.navigate(['/app-main-page']);
+    })
+    .catch((error) => {
       this.errorMessage = 'Correo o contraseña incorrectos';
       this.successMessage = '';
-    }
-  }
-  constructor(private titleService: Title) {}
-
-ngOnInit() {
-  this.titleService.setTitle('Inicio de sesión');
+      console.error('Error al iniciar sesión:', error.message);
+    });
 }
 
 }
