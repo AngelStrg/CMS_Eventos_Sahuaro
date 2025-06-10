@@ -3,11 +3,12 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { CostosService } from '../../services/costos.service';
 import { Cost } from '../../models/cost.interface';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-our-costs',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NavBarComponent],
   templateUrl: './our-costs.component.html',
   styleUrls: ['./our-costs.component.css']
 })
@@ -66,3 +67,4 @@ export class OurCostsComponent implements OnInit {
     }
   }
 }
+

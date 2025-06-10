@@ -5,7 +5,7 @@ import { LoginEventosSahuaroComponent } from "../login-eventos-sahuaro/login-eve
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
 import { CostComponent } from "../cost/cost.component";
 import { DatesComponent } from "../dates/dates.component";
-import { MediaComponent } from "../media/media.component";
+
 import { StockComponent } from "../stock/stock.component";
 import { Title } from '@angular/platform-browser';
 import { OurServicesComponent } from '../our-services/our-services.component';
@@ -14,7 +14,7 @@ import { AdditionalServicesComponent } from '../additional-services/additional-s
 @Component({
   selector: 'app-main-page',
   imports: [RouterOutlet, RouterModule, CommonModule, LoginEventosSahuaroComponent, NavBarComponent, CostComponent,
-    DatesComponent, MediaComponent, StockComponent, OurServicesComponent, AdditionalServicesComponent],
+    DatesComponent, StockComponent, OurServicesComponent, AdditionalServicesComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })

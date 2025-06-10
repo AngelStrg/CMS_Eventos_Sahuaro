@@ -5,11 +5,12 @@ import { DatesService } from '../../services/dates.service';
 import { Dates } from '../../models/dates.interface';
 import { FormsModule } from '@angular/forms';
 import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-our-dates',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule,NavBarComponent],
   templateUrl: './our-dates.component.html',
   styleUrls: ['./our-dates.component.css']
 })
@@ -266,3 +267,4 @@ filtrarEventos() {
 }
 
 }
+

@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Auth } from '@angular/fire/auth';
+import { authState } from 'rxfire/auth';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login-eventos-sahuaro',
@@ -11,30 +15,39 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login-eventos-sahuaro.component.html',
   styleUrls: ['./login-eventos-sahuaro.component.css']
 })
-export class LoginEventosSahuaroComponent {
+export class LoginEventosSahuaroComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
 
+  constructor(
+    private titleService: Title,
+    private authService: AuthService,
+    private router: Router,
+    private auth: Auth // Firebase Auth inyectado
+  ) {}
+
+ngOnInit(): void {
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', () => {
+      this.auth.signOut();
+    });
+  }
+}
   onSubmit(form: NgForm) {
     if (form.invalid) return;
 
     const { email, password } = form.value;
 
-    if (email === 'admin@sahuaro.com' && password === '123456') {
-      this.successMessage = 'Inicio de sesión exitoso';
-      this.errorMessage = '';
-      console.log('Sesión iniciada correctamente');
-      // Aquí puedes redirigir: this.router.navigate(['/dashboard']);
-    } else {
-      this.errorMessage = 'Correo o contraseña incorrectos';
-      this.successMessage = '';
-    }
+    this.authService.login(email, password)
+      .then(() => {
+        this.successMessage = 'Inicio de sesión exitoso';
+        this.errorMessage = '';
+        this.router.navigate(['/app-main-page']);
+      })
+      .catch((error) => {
+        this.errorMessage = 'Correo o contraseña incorrectos';
+        this.successMessage = '';
+        console.error('Error al iniciar sesión:', error.message);
+      });
   }
-  constructor(private titleService: Title) {}
-
-ngOnInit() {
-  this.titleService.setTitle('Inicio de sesión');
 }
-
-}
-
