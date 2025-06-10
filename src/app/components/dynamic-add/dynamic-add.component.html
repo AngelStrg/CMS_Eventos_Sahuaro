@@ -1,5 +1,12 @@
 <ul>
   <li *ngFor="let service of services$ | async">
-    {{ service.id }}
+    <input
+      type="checkbox"
+      [value]="service.id"
+      (change)="onCheckboxChange($event, service)"
+      [checked]="isChecked(service)"
+      id="extra-{{service.id}}"
+    />
+    <label [for]="'extra-' + service.id">{{ service.id }}</label>
   </li>
 </ul>

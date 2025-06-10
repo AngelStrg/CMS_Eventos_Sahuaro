@@ -21,11 +21,10 @@ export class OurDatesComponent implements OnInit {
   eventosFiltrados: Dates[] = [];
   form: FormGroup;
 
-  tiposEvento = ['Cumpleaños', 'Bautizo', 'Primera Comunión', 'Fiesta', 'Evento Empresarial', 'Otro'];
-  rangosPersonas = ['1-25', '26-50', '51-75', '76-100', '101+'];
+  tiposEvento = ['Boda', 'Bautizo', 'Cumpleaños', 'Grauación', 'XV años', 'Otro'];
+  rangosPersonas = ['1-25', '26-50', '51-80', '81-100', '101-150'];
   opcionesAlberca = ['Con alberca', 'Sin alberca'];
-  opcionesExtras = ['Inflable Azul', 'Inflable Rosa', 'Palomera', 'Smoothies'];
-  coloresMantel = ['#B5818D', '#FEC7B4', '#FFF7D4', '#97E7E1', '#A1EEBD'];
+  coloresMantel = ['Azul Rey', 'Azul Cielo', 'Azul Aqua', 'Rosa', 'Durazno', 'Rosa Mexicano', 'Verde', 'Verde Agua', 'Plateado', 'Dorado', 'Amarillo', 'Naranja'];
   estadosDisponibles = ['Confirmado', 'Pendiente', 'Pospuesto'];
 
   horasInicioOptions = Array.from({ length: 13 }, (_, i) => i + 8); // 8 a 20
@@ -229,4 +228,10 @@ export class OurDatesComponent implements OnInit {
       return cumpleFiltros && (texto === '' || cumpleTexto);
     });
   }
+
+  onCorreoInput(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  const correo = input.value.toLowerCase();
+  this.form.get('correo')?.setValue(correo, { emitEvent: false });
+}
 }

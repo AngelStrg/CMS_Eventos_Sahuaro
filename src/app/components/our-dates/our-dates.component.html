@@ -6,7 +6,7 @@
   <input type="date" placeholder="Fecha" [(ngModel)]="filtros.fecha" (change)="filtrarEventos()" />
   <input type="text" placeholder="Tipo" [(ngModel)]="filtros.tipo" (input)="filtrarEventos()" />
   <input type="text" placeholder="Teléfono" [(ngModel)]="filtros.telefono" (input)="filtrarEventos()" />
-  <input type="text" placeholder="Correo" [(ngModel)]="filtros.correo" (input)="filtrarEventos()" />
+  <input type="text"  placeholder="Correo"  [(ngModel)]="filtros.correo"  (input)="filtros.correo = filtros.correo.toLowerCase(); filtrarEventos()" />
 
   <!-- Filtro por estado -->
   <select [(ngModel)]="filtros.estado" (change)="filtrarEventos()" class="estados">
@@ -46,7 +46,7 @@
   <input type="text" formControlName="apellidos" />
 
   <label>Correo:</label>
-  <input type="email" formControlName="correo" />
+  <input  type="email" formControlName="correo" (input)="onCorreoInput($event)" />
 
   <label>Teléfono:</label>
   <input type="text" formControlName="telefono" />
@@ -108,9 +108,12 @@
   </select>
 
   <label>Extras:</label>
-  <div>
-    <app-dynamic-add></app-dynamic-add>
-  </div>
+<div>
+  <app-dynamic-add
+  [selectedExtras]="form.value.extras || []"
+  (selectedExtrasChange)="form.get('extras')?.setValue($event)"
+></app-dynamic-add>
+</div>
 
   <label>Estado:</label>
   <select formControlName="estado">
