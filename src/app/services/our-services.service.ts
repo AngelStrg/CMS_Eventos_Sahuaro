@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { collection, Firestore, addDoc, collectionData, doc, deleteDoc } from '@angular/fire/firestore';
-import { OurService } from '../models/our-services';
+import { collection, Firestore, addDoc, collectionData, doc, deleteDoc , setDoc} from '@angular/fire/firestore';
+import { OurServices } from '../models/our-services';
 import { Observable } from 'rxjs';
 
 
@@ -10,17 +10,17 @@ import { Observable } from 'rxjs';
 export class OurServicesService {
   constructor(private firestore: Firestore) {}
 
-  addService(service: OurService) {
-    const serviceRef = collection(this.firestore, 'our-services');
-    return addDoc(serviceRef, service);
+  addService(service: OurServices) {
+    const docRef = doc(this.firestore, `our-services/${service.id}`);
+    return setDoc(docRef, service);
   }
 
-  getServices(): Observable<OurService[]> {
-    const serviceRef = collection(this.firestore, 'our-services');
-    return collectionData(serviceRef, { idField: 'id' }) as Observable<OurService[]>;
+  getServices(): Observable<OurServices[]> {
+    const collectionRef = collection(this.firestore, 'our-services');
+    return collectionData(collectionRef, { idField: 'id' }) as Observable<OurServices[]>;
   }
 
-  deleteService(service: OurService) {
+  deleteService(service: OurServices) {
     const serviceDocRef = doc(this.firestore, `our-services/${service.id}`);
     return deleteDoc(serviceDocRef);
   }
