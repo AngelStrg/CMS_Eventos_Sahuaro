@@ -1,21 +1,71 @@
+/* Contenedor para compensar el espacio de la navbar */
+.precios-table-wrapper {
+  margin-top: 30px; /* Deja espacio suficiente para tu navbar */
+  padding: 20px;
+}
+
+/* Estilo general de la tabla */
 .precios-table {
-  background-color: white;
-  color: black;
-  border: 2px solid #198754; /* verde Bootstrap */
+  background-color: #F2F2F2;
+  color: #262626;
+  border: 2px solid #6D8C4D;
+  width: 100%;
+  max-width: 850px; /* Hacemos la tabla más angosta para mejorar estética */
+  margin: auto;
+  border-collapse: collapse;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Encabezado */
 .precios-table th {
-  background-color: #198754;
-  color: white;
+  background-color: #6D8C4D;
+  color: #ffffff;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
 }
 
+/* Celdas */
 .precios-table td,
 .precios-table th {
   vertical-align: middle;
+  border: 1px solid #C2C2C2;
+  padding: 10px;
+  text-align: center;
 }
 
+/* Inputs dentro de la tabla */
 .precios-table input {
   max-width: 120px;
   margin: auto;
-  border: 1px solid #ced4da;
+  padding: 5px 10px;
+  border: 1px solid #86A656;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #262626;
 }
+
+/* Hover filas */
+.precios-table tr:hover {
+  background-color: #EAF3E0;
+}
+
+/* Botón personalizado con fondo blanco y sombras grises */
+.btn-custom {
+  background-color: #ffffff;
+  color: #2c2c2c;
+  font-weight: 600;
+  border: 1px solid #cccccc;
+  padding: 12px 28px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #f4f4f4;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+

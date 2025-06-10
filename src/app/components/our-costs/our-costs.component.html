@@ -1,42 +1,45 @@
 <app-nav-bar></app-nav-bar>
+
 <div *ngIf="cargando" class="text-center my-4">
   <div class="spinner-border text-success" role="status"></div>
   <p>Cargando datos...</p>
 </div>
 
-<section class="container" >
-<form *ngIf="!cargando && formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()" class="table-responsive">
-  <table class="table table-bordered text-center precios-table">
-    <thead class="table-success">
-      <tr>
-        <th>Paquete</th>
-        <th>Con alberca</th>
-        <th>Sin alberca</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let periodo of [1,2,3,4,5]">
-        <td><strong>P{{periodo}}</strong></td>
-        <td>
-          <input
-            type="number"
-            class="form-control text-center"
-            [formControlName]="'p' + periodo + '_with_pool'"
-          />
-        </td>
-        <td>
-          <input
-            type="number"
-            class="form-control text-center"
-            [formControlName]="'p' + periodo + '_without_pool'"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<section class="container precios-table-wrapper">
+  <form *ngIf="!cargando && formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()" class="table-responsive">
+    <table class="table table-bordered text-center precios-table">
+      <thead>
+        <tr>
+          <th>Paquete</th>
+          <th>Con alberca</th>
+          <th>Sin alberca</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let periodo of [1, 2, 3, 4, 5]">
+          <td><strong>P{{ periodo }}</strong></td>
+          <td>
+            <input
+              type="number"
+              class="form-control text-center"
+              [formControlName]="'p' + periodo + '_with_pool'"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              class="form-control text-center"
+              [formControlName]="'p' + periodo + '_without_pool'"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="text-end mt-3">
-    <button type="submit" class="btn btn-success">Actualizar</button>
-  </div>
-</form>
+    <!-- Botón centrado con espacio -->
+    <div class="d-flex justify-content-center mt-4 mb-4">
+      <button type="submit" class="btn btn-custom">Actualizar</button>
+    </div>
+  </form>
 </section>
+
