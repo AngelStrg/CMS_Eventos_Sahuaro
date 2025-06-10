@@ -1,34 +1,39 @@
-<section class="container">
+<app-nav-bar></app-nav-bar>
 
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="form-container">
-  <h2>Nuevo servicio</h2>
+<section class="container my-5">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card p-4 shadow-sm mb-5 bg-white rounded">
+    <h2 class="mb-4 custom-green">Agregar servicio</h2>
 
-  <label>
-    Nombre del servicio:
-    <input type="text" formControlName="id" placeholder="Nombre del servicio" />
-  </label>
+    <div class="mb-3">
+      <label class="form-label">ID:</label>
+      <input type="text" formControlName="id" class="form-control" placeholder="ej: masajes" />
+    </div>
 
-  <label>
-    Descripción:
-    <input type="text" formControlName="descripcion" placeholder="Breve descripción" />
-  </label>
+    <div class="mb-3">
+      <label class="form-label">Descripción:</label>
+      <input type="text" formControlName="descripcion" class="form-control" placeholder="ej: Masajes relajantes" />
+    </div>
 
-  <label>
-    Imagen (URL):
-    <input type="text" formControlName="imagen" placeholder="https://..." />
-  </label>
+    <div class="mb-3">
+      <label class="form-label">Imagen (URL):</label>
+      <input type="text" formControlName="imagen" class="form-control" placeholder="https://..." />
+    </div>
 
-  <button type="submit">Guardar servicio</button>
-</form>
+    <button type="submit" class="btn custom-btn-green">Agregar</button>
+  </form>
 
-<div class="card-container">
-  <div *ngFor="let servicio of servicios" class="place-card">
-    <img [src]="servicio.imagen" alt="Imagen de {{ servicio.id }}" class="place-image" />
-    <div class="card-content">
-      <h3>{{ servicio.id }}</h3>
-      <p>{{ servicio.descripcion }}</p>
-      <button class="btn" (click)="onClickDelete(servicio)">Borrar</button>
+  <hr />
+
+  <div class="row g-4">
+    <div *ngFor="let servicio of servicios" class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <img [src]="servicio.imagen" alt="{{ servicio.id }}" class="card-img-top object-fit-cover" style="height: 200px;" />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title custom-green">{{ servicio.id }}</h5>
+          <p class="card-text flex-grow-1">{{ servicio.descripcion }}</p>
+          <button class="btn custom-btn-outline-green mt-3" (click)="onDelete(servicio)">Borrar</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </section>
