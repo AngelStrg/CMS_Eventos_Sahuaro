@@ -10,7 +10,7 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
 @Component({
   selector: 'app-our-dates',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule,NavBarComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NavBarComponent],
   templateUrl: './our-dates.component.html',
   styleUrls: ['./our-dates.component.css']
 })
@@ -24,6 +24,7 @@ export class OurDatesComponent implements OnInit {
   opcionesAlberca = ['Con alberca', 'Sin alberca'];
   opcionesExtras = ['Inflable Azul', 'Inflable Rosa', 'Palomera', 'Smoothies'];
   coloresMantel = ['#B5818D', '#FEC7B4', '#FFF7D4', '#97E7E1', '#A1EEBD'];
+  estadosDisponibles = ['Confirmado', 'Pendiente', 'Pospuesto'];
 
   horasInicioOptions = Array.from({ length: 13 }, (_, i) => i + 8); // 8 a 20
   horasExtrasOptions: number[] = [];
@@ -44,61 +45,57 @@ export class OurDatesComponent implements OnInit {
       horasExtras: [0],
       horaFin: [''],
       colorMantel: ['', Validators.required],
-      extras: [[]]
+      extras: [[]],
+      estado: ['Pendiente', Validators.required]
     });
   }
 
   ngOnInit(): void {
-
-    this.eventosFiltrados = this.eventos;
-    
     const eventosRef = collection(this.firestore, 'eventos');
     collectionData(eventosRef, { idField: 'id' }).subscribe(data => {
-  this.eventos = data as Dates[];
-  this.eventosFiltrados = [...this.eventos];
-});
+      this.eventos = data as Dates[];
+      this.eventosFiltrados = [...this.eventos];
+    });
 
     this.form.get('horaInicio')?.valueChanges.subscribe((hora: number) => {
-  this.horaInicio = hora.toString().padStart(2, '0') + ':00';
-  this.horasExtrasOptions = this.obtenerHorasExtraDisponibles();
-  this.form.patchValue({ horasExtras: 0 }); // reinicia extras al cambiar hora
-  this.actualizarHoraFin();
-});
+      this.horaInicio = hora.toString().padStart(2, '0') + ':00';
+      this.horasExtrasOptions = this.obtenerHorasExtraDisponibles();
+      this.form.patchValue({ horasExtras: 0 });
+      this.actualizarHoraFin();
+    });
 
     this.form.get('horasExtras')?.valueChanges.subscribe(() => this.actualizarHoraFin());
   }
 
   guardarEvento() {
-  if (this.form.invalid) {
-    alert('Por favor, complete todos los campos requeridos correctamente.');
-    return;
+    if (this.form.invalid) {
+      alert('Por favor, complete todos los campos requeridos correctamente.');
+      return;
+    }
+
+    const data = this.form.value;
+    data.horaFin = this.horaFin;
+
+    const eventosRef = collection(this.firestore, 'eventos');
+
+    if (this.editando && this.idEditando) {
+      const eventoDocRef = doc(this.firestore, `eventos/${this.idEditando}`);
+      updateDoc(eventoDocRef, data).then(() => {
+        alert('Evento actualizado correctamente');
+        this.cancelarEdicion();
+      }).catch(err => {
+        console.error('Error actualizando evento', err);
+      });
+    } else {
+      addDoc(eventosRef, data).then(() => {
+        alert('Evento guardado correctamente');
+        this.form.reset({ horasExtras: 0, estado: 'Pendiente' });
+        this.horaFin = '';
+      }).catch(err => {
+        console.error('Error guardando evento', err);
+      });
+    }
   }
-
-  const data = this.form.value;
-  data.horaFin = this.horaFin;
-
-  const eventosRef = collection(this.firestore, 'eventos');
-
-  if (this.editando && this.idEditando) {
-    // Actualizar documento en Firestore
-    const eventoDocRef = doc(this.firestore, `eventos/${this.idEditando}`);
-    updateDoc(eventoDocRef, data).then(() => {
-      alert('Evento actualizado correctamente');
-      this.cancelarEdicion();
-    }).catch(err => {
-      console.error('Error actualizando evento', err);
-    });
-  } else {
-    // Guardar nuevo documento
-    addDoc(eventosRef, data).then(() => {
-      alert('Evento guardado correctamente');
-      this.form.reset({ horasExtras: 0 });
-      this.horaFin = '';
-    }).catch(err => {
-      console.error('Error guardando evento', err);
-    });
-  }
-}
 
   eliminarEvento(id: string) {
     const eventoRef = doc(this.firestore, `eventos/${id}`);
@@ -117,49 +114,34 @@ export class OurDatesComponent implements OnInit {
     }
   }
 
-  // PROPIEDADES para los filtros (para evitar errores)
-  filtroFecha: string = '';
-  filtroTipoEvento: string = '';
-  filtroCliente: string = '';
-  filtroEstado: string = '';
+  filtroTexto: string = '';
+  filtros = {
+    nombre: '',
+    fecha: '',
+    tipo: '',
+    telefono: '',
+    correo: '',
+    estado: ''
+  };
 
-  // Horas de inicio permitidas (de 8 am a 8 pm)
-  horasDisponibles: string[] = [
-    '08:00', '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00',
-    '18:00', '19:00', '20:00'
-  ];
-
-  // Variables para selección de horario
   horaInicio: string = '';
   horasExtras: number = 0;
   horaFin: string = '';
-
-  // Base duración del evento en horas
   duracionBase: number = 6;
 
-
-  // Actualiza la hora de fin cuando cambia la hora de inicio o horas extras
   actualizarHoraFin() {
     if (!this.horaInicio) {
       this.horaFin = '';
       return;
     }
 
-    // Convertir hora de inicio a número (hora)
     const [horaStr] = this.horaInicio.split(':');
     let horaNum = Number(horaStr);
-
-    // Calcular fin sumando duración base + horas extras
     let totalHoras = this.duracionBase + (this.horasExtras || 0);
     let horaFinNum = horaNum + totalHoras;
 
-    // Ajustar horaFinNum para formato 24h (hasta 26 para 2am siguiente día)
-    if (horaFinNum > 26) {
-      horaFinNum = 26;
-    }
+    if (horaFinNum > 26) horaFinNum = 26;
 
-    // Convertir horaFinNum a formato hh:mm (ajustando para 24h/2am)
     if (horaFinNum <= 23) {
       this.horaFin = `${horaFinNum.toString().padStart(2, '0')}:00`;
     } else {
@@ -168,103 +150,81 @@ export class OurDatesComponent implements OnInit {
     }
   }
 
-  // Retorna arreglo de horas extra posibles según hora inicio y límites
   obtenerHorasExtraDisponibles(): number[] {
-    if (!this.horaInicio) {
-      return [0];
-    }
+    if (!this.horaInicio) return [0];
 
-    const maxFin = 26; // 2 AM siguiente día en formato 24h + 2
+    const maxFin = 26;
     const [horaStr] = this.horaInicio.split(':');
     const horaNum = Number(horaStr);
-
     const maxHorasExtra = maxFin - (horaNum + this.duracionBase);
-
     const maxExtra = Math.max(0, maxHorasExtra);
 
-    // Generar arreglo de 0 hasta maxExtra (ej: [0,1,2])
-    const extras = [];
-    for (let i = 0; i <= maxExtra; i++) {
-      extras.push(i);
-    }
-    return extras;
+    return Array.from({ length: maxExtra + 1 }, (_, i) => i);
   }
 
-  // Controlar cambio de horas extra (recibe string, convertir a número)
   onHorasExtrasChange(event: Event) {
-  const target = event.target as HTMLSelectElement;
-  this.horasExtras = Number(target.value);
-  this.actualizarHoraFin();
+    const target = event.target as HTMLSelectElement;
+    this.horasExtras = Number(target.value);
+    this.actualizarHoraFin();
+  }
+
+  editando: boolean = false;
+  idEditando: string | null = null;
+
+  editarEvento(evento: Dates) {
+    this.editando = true;
+    this.idEditando = evento.id || null;
+
+    this.form.patchValue({
+      nombre: evento.nombre,
+      apellidos: evento.apellidos,
+      correo: evento.correo,
+      telefono: evento.telefono,
+      fecha: evento.fecha,
+      personas: evento.personas,
+      tipoEvento: evento.tipoEvento,
+      alberca: evento.alberca,
+      horaInicio: Number(evento.horaInicio),
+      horasExtras: evento.horasExtras || 0,
+      colorMantel: evento.colorMantel,
+      extras: evento.extras || [],
+      estado: evento.estado || 'Pendiente'
+    });
+
+    this.horaInicio = this.form.value.horaInicio.toString().padStart(2, '0') + ':00';
+    this.horasExtras = this.form.value.horasExtras;
+    this.actualizarHoraFin();
+  }
+
+  cancelarEdicion() {
+    this.editando = false;
+    this.idEditando = null;
+    this.form.reset({ horasExtras: 0, estado: 'Pendiente' });
+    this.horaFin = '';
+  }
+
+  filtrarEventos() {
+    const texto = this.filtroTexto.toLowerCase();
+
+    this.eventosFiltrados = this.eventos.filter(evento => {
+      const cumpleFiltros =
+        (this.filtros.nombre ? evento.nombre.toLowerCase().includes(this.filtros.nombre.toLowerCase()) : true) &&
+        (this.filtros.fecha ? evento.fecha.includes(this.filtros.fecha) : true) &&
+        (this.filtros.tipo ? evento.tipoEvento.toLowerCase().includes(this.filtros.tipo.toLowerCase()) : true) &&
+        (this.filtros.telefono ? evento.telefono.includes(this.filtros.telefono) : true) &&
+        (this.filtros.correo ? evento.correo.toLowerCase().includes(this.filtros.correo.toLowerCase()) : true) &&
+        (this.filtros.estado ? evento.estado?.toLowerCase().includes(this.filtros.estado.toLowerCase()) : true);
+
+      const cumpleTexto =
+        evento.nombre.toLowerCase().includes(texto) ||
+        (evento.apellidos?.toLowerCase().includes(texto)) ||
+        evento.tipoEvento.toLowerCase().includes(texto) ||
+        evento.telefono.toLowerCase().includes(texto) ||
+        evento.correo.toLowerCase().includes(texto) ||
+        evento.fecha.includes(texto) ||
+        (evento.estado?.toLowerCase().includes(texto));
+
+      return cumpleFiltros && (texto === '' || cumpleTexto);
+    });
+  }
 }
-
-editando: boolean = false;
-idEditando: string | null = null;
-
-editarEvento(evento: Dates) {
-  this.editando = true;
-  this.idEditando = evento.id || null;
-
-  // Cargar datos en el formulario
-  this.form.patchValue({
-    nombre: evento.nombre,
-    apellidos: evento.apellidos,
-    correo: evento.correo,
-    telefono: evento.telefono,
-    fecha: evento.fecha,
-    personas: evento.personas,
-    tipoEvento: evento.tipoEvento,
-    alberca: evento.alberca,
-    horaInicio: Number(evento.horaInicio),  // Asegúrate que es número
-    horasExtras: evento.horasExtras || 0,
-    colorMantel: evento.colorMantel,
-    extras: evento.extras || []
-  });
-
-  // Actualizar horas extra disponibles y hora fin calculada
-  this.horaInicio = this.form.value.horaInicio.toString().padStart(2, '0') + ':00';
-  this.horasExtras = this.form.value.horasExtras;
-  this.actualizarHoraFin();
-}
-
-cancelarEdicion() {
-  this.editando = false;
-  this.idEditando = null;
-  this.form.reset({ horasExtras: 0 });
-  this.horaFin = '';
-}
-
-filtros = {
-    nombre: '',
-    fecha: '',
-    tipo: '',
-    telefono: '',
-    correo: '',
-  };
-
-filtroTexto: string = '';  // para texto del filtro
-
-filtrarEventos() {
-  const texto = this.filtroTexto.toLowerCase();
-
-  this.eventosFiltrados = this.eventos.filter(evento => {
-    const cumpleFiltros =
-      (this.filtros.nombre ? evento.nombre.toLowerCase().includes(this.filtros.nombre.toLowerCase()) : true) &&
-      (this.filtros.fecha ? evento.fecha.includes(this.filtros.fecha) : true) &&
-      (this.filtros.tipo ? evento.tipoEvento.toLowerCase().includes(this.filtros.tipo.toLowerCase()) : true) &&
-      (this.filtros.telefono ? evento.telefono.includes(this.filtros.telefono) : true) &&
-      (this.filtros.correo ? evento.correo.toLowerCase().includes(this.filtros.correo.toLowerCase()) : true);
-
-    const cumpleTexto =
-      evento.nombre.toLowerCase().includes(texto) ||
-      (evento.apellidos?.toLowerCase().includes(texto)) ||
-      evento.tipoEvento.toLowerCase().includes(texto) ||
-      evento.telefono.toLowerCase().includes(texto) ||
-      evento.correo.toLowerCase().includes(texto) ||
-      evento.fecha.includes(texto);
-
-    return cumpleFiltros && (texto === '' || cumpleTexto);
-  });
-}
-
-}
-

@@ -13,4 +13,5 @@ export interface Dates {
   horaFin: number;
   colorMantel: string;
   extras: string[];
+  estado: string;
 }

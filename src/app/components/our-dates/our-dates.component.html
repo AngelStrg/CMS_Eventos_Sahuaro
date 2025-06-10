@@ -1,4 +1,5 @@
 <app-nav-bar></app-nav-bar>
+
 <h2 class="title">Filtros</h2>
 <div class="filtros">
   <input type="text" placeholder="Nombre" [(ngModel)]="filtros.nombre" (input)="filtrarEventos()" />
@@ -6,22 +7,28 @@
   <input type="text" placeholder="Tipo" [(ngModel)]="filtros.tipo" (input)="filtrarEventos()" />
   <input type="text" placeholder="Teléfono" [(ngModel)]="filtros.telefono" (input)="filtrarEventos()" />
   <input type="text" placeholder="Correo" [(ngModel)]="filtros.correo" (input)="filtrarEventos()" />
+
+  <!-- Filtro por estado -->
+  <select [(ngModel)]="filtros.estado" (change)="filtrarEventos()">
+    <option value="">Todos los estados</option>
+    <option *ngFor="let estado of estadosDisponibles" [value]="estado">{{ estado }}</option>
+  </select>
 </div>
 
 <h2 class="title">Eventos Registrados</h2>
 <div *ngFor="let evento of eventosFiltrados" class="evento">
-  <!-- Aquí va tu código de cada evento igual -->
   <p><strong>Nombre:</strong> {{ evento.nombre }} {{ evento.apellidos }}</p>
   <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
   <p><strong>Tipo:</strong> {{ evento.tipoEvento }}</p>
   <p><strong>Inicio:</strong> {{ evento.horaInicio + ':00' }}</p>
   <p><strong>Fin:</strong> {{ evento.horaFin }}</p>
-  <p><strong>Numero de personas:</strong>{{evento.personas}}</p>
-  <p><strong>Telefono:</strong>{{evento.telefono}}</p>
-  <p><strong>Correo:</strong>{{evento.correo}}</p>
-  <p><strong>Color Mantel:</strong>{{evento.colorMantel}}</p>
-  <p><strong>Alberca:</strong>{{evento.alberca}}</p>
-  <p><strong>Extras:</strong>{{evento.extras}}</p>
+  <p><strong>Número de personas:</strong> {{ evento.personas }}</p>
+  <p><strong>Teléfono:</strong> {{ evento.telefono }}</p>
+  <p><strong>Correo:</strong> {{ evento.correo }}</p>
+  <p><strong>Color Mantel:</strong> {{ evento.colorMantel }}</p>
+  <p><strong>Alberca:</strong> {{ evento.alberca }}</p>
+  <p><strong>Extras:</strong> {{ evento.extras }}</p>
+  <p><strong>Estado:</strong> {{ evento.estado }}</p>
 
   <div class="botones-acciones">
     <button class="btn-editar" (click)="editarEvento(evento)">Editar</button>
@@ -49,19 +56,19 @@
 
   <label>Número de personas:</label>
   <select formControlName="personas">
-    <option value="" disabled selected>Seleccione</option>
+    <option value="">Seleccione</option>
     <option *ngFor="let rango of rangosPersonas" [value]="rango">{{ rango }}</option>
   </select>
 
   <label>Tipo de evento:</label>
   <select formControlName="tipoEvento">
-    <option value="" disabled selected>Seleccione</option>
+    <option value="">Seleccione</option>
     <option *ngFor="let tipo of tiposEvento" [value]="tipo">{{ tipo }}</option>
   </select>
 
   <label>¿Con alberca?</label>
   <select formControlName="alberca">
-    <option value="" disabled selected>Seleccione</option>
+    <option value="">Seleccione</option>
     <option *ngFor="let opcion of opcionesAlberca" [value]="opcion">{{ opcion }}</option>
   </select>
 
@@ -69,36 +76,32 @@
   <div class="horas-registro">
     <label>Hora de inicio:</label>
     <select formControlName="horaInicio" (change)="actualizarHoraFin()">
-      <option value="" disabled selected>Seleccione</option>
-      <option *ngFor="let hora of horasInicioOptions" [value]="hora">
-  {{ hora + ':00' }}
-</option>
+      <option value="">Seleccione</option>
+      <option *ngFor="let hora of horasInicioOptions" [value]="hora">{{ hora + ':00' }}</option>
     </select>
 
-      <!-- Selección de Horas Extras -->
-  <div *ngIf="horaInicio">
-    <label for="horasExtras" class="block font-semibold mb-1">Horas Extras:</label>
-    <select
-  id="horasExtras"
-  [value]="horasExtras"
-  (change)="onHorasExtrasChange($event)"
-  class="w-full border rounded-lg px-3 py-2"
->
-  <option *ngFor="let extra of obtenerHorasExtraDisponibles()" [value]="extra">
-    {{ extra }}
-  </option>
-</select>
-  </div>
+    <div *ngIf="horaInicio">
+      <label for="horasExtras">Horas Extras:</label>
+      <select
+        id="horasExtras"
+        [value]="horasExtras"
+        (change)="onHorasExtrasChange($event)"
+        class="w-full border rounded-lg px-3 py-2"
+      >
+        <option *ngFor="let extra of obtenerHorasExtraDisponibles()" [value]="extra">
+          {{ extra }}
+        </option>
+      </select>
+    </div>
 
-     <!-- Mostrar Hora Fin -->
-  <div *ngIf="horaFin">
-    <p class="font-semibold">Hora de Fin: <span class="text-blue-600">{{ horaFin }}</span></p>
-  </div>
+    <div *ngIf="horaFin">
+      <p><strong>Hora de Fin:</strong> {{ horaFin }}</p>
+    </div>
   </div>
 
   <label>Color de mantel:</label>
   <select formControlName="colorMantel">
-    <option value="" disabled selected>Seleccione</option>
+    <option value="">Seleccione</option>
     <option *ngFor="let color of coloresMantel" [value]="color" [style.background]="color">
       {{ color }}
     </option>
@@ -115,11 +118,14 @@
     {{ extra }}
   </div>
 
+  <label>Estado:</label>
+  <select formControlName="estado">
+    <option value="">Seleccione</option>
+    <option *ngFor="let estado of estadosDisponibles" [value]="estado">{{ estado }}</option>
+  </select>
+
   <button type="submit" [disabled]="form.invalid">
-  {{ editando ? 'Actualizar' : 'Guardar' }}
-</button>
-<button *ngIf="editando" type="button" (click)="cancelarEdicion()">Cancelar</button>
+    {{ editando ? 'Actualizar' : 'Guardar' }}
+  </button>
+  <button *ngIf="editando" type="button" (click)="cancelarEdicion()">Cancelar</button>
 </form>
-
-<hr />
-

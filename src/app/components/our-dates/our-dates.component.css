@@ -167,6 +167,67 @@ p.font-semibold {
   box-shadow: 0 0 6px #D9A441aa;
 }
 
+/* Filtros - input */
+.filtros input {
+  max-width: 80%;
+  margin: 8px auto;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 2px solid #6D9A45;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #6D9A45;
+  background-color: #fefefb;
+  transition: border-color 0.3s ease;
+}
+
+.filtros input:focus {
+  border-color: #D9A441;
+  outline: none;
+  box-shadow: 0 0 6px #D9A441aa;
+}
+
+/* Título de sección */
+.title {
+  margin: 20px auto 10px auto;
+  max-width: 720px;
+  color: #6D9A45;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Contenedor de botones para separar y espaciar */
+.botones-acciones {
+  margin-top: 8px;
+  display: flex;
+  gap: 16px; /* espacio entre botones */
+  justify-content: flex-start;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estados de reservación con colores */
+.estado-confirmado {
+  color: #2E7D32; /* verde oscuro */
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.estado-pendiente {
+  color: #F9A825; /* amarillo / naranja */
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.estado-pospuesto {
+  color: #D32F2F; /* rojo */
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 /* Responsive */
 @media (max-width: 760px) {
   body {
@@ -180,26 +241,16 @@ p.font-semibold {
   .horas-registro input[disabled] {
     flex-basis: 100%;
   }
-}
-
-/* Contenedor de botones para separar y espaciar */
-.botones-acciones {
-  margin-top: 8px;
-  display: flex;
-  gap: 16px; /* espacio entre botones */
-}
-
-.filtros input {
-  max-width: 80%;
-  margin: 8px 0;
-  margin-left: 200px;
-  margin-right: 200px;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.title{
-  margin-top: 20px;
-  margin-left: 200px;
+  .botones-acciones {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .filtros input {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .title {
+    margin-left: 0;
+  }
 }
