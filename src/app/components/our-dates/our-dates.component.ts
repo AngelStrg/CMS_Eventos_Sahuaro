@@ -6,11 +6,13 @@ import { Dates } from '../../models/dates.interface';
 import { FormsModule } from '@angular/forms';
 import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { DynamicAddComponent } from '../dynamic-add/dynamic-add.component';
+import { AdditionalServicesComponent } from "../additional-services/additional-services.component";
 
 @Component({
   selector: 'app-our-dates',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NavBarComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NavBarComponent, DynamicAddComponent, AdditionalServicesComponent],
   templateUrl: './our-dates.component.html',
   styleUrls: ['./our-dates.component.css']
 })

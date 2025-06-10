@@ -108,14 +108,8 @@
   </select>
 
   <label>Extras:</label>
-  <div *ngFor="let extra of opcionesExtras">
-    <input
-      type="checkbox"
-      [value]="extra"
-      (change)="onExtraChange($event)"
-      [checked]="form.value.extras?.includes(extra)"
-    />
-    {{ extra }}
+  <div>
+    <app-dynamic-add></app-dynamic-add>
   </div>
 
   <label>Estado:</label>
