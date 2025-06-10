@@ -1,29 +1,121 @@
-.custom-green {
+/* Contenedor para centrar las tarjetas */
+.services-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tarjeta de servicio estilo público */
+.service {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(44, 146, 24, 0.322);
+  width: 700px;
+  max-width: 95vw;
+  padding: 20px;
+  margin-bottom: 0;
+  color: #222222;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service.reverse {
+  flex-direction: row-reverse;
+}
+
+.service img {
+  width: 240px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 32px;
+  margin-left: 0;
+  background: #5b5b5b;
+}
+
+.service.reverse img {
+  margin-right: 0;
+  margin-left: 32px;
+}
+
+.service:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 128, 0, 0.2);
+  border-color: #6D9A45;
+}
+
+.service-text {
+  flex: 1;
+}
+
+.service-text h4 {
+  margin: 0 0 10px 0;
+  font-size: 22px;
   color: #6D9A45;
 }
 
+.service-text p {
+  margin: 0;
+  font-size: 16px;
+  color: #444;
+}
+
+/* Botones personalizados */
+.custom-green {
+  color: #6D8C4D;
+}
+
 .custom-btn-green {
-  background-color: #6D9A45;
-  color: #fff;
+  background-color: #78A64B;
+  color: white;
   border: none;
 }
 
 .custom-btn-green:hover {
-  background-color: #5a823a;
+  background-color: #6D8C4D;
 }
 
 .custom-btn-outline-green {
-  border: 2px solid #6D9A45;
-  color: #6D9A45;
   background-color: transparent;
+  color: #6D8C4D;
+  border: 2px solid #6D8C4D;
 }
-
 
 .custom-btn-outline-green:hover {
-  background-color: #6D9A45;
-  color: #fff;
+  background-color: #6D8C4D;
+  color: white;
 }
 
-.object-fit-cover {
-  object-fit: cover;
+/* Responsive */
+@media (max-width: 900px) {
+  .service {
+    width: 98vw;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .service, .service.reverse {
+    flex-direction: column !important;
+    align-items: flex-start;
+    width: 98vw;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .service img, .service.reverse img {
+    margin: 0 0 16px 0 !important;
+    width: 100%;
+    height: 180px;
+  }
+
+  .service-text h4 {
+    font-size: 1.1rem;
+  }
+
+  .service-text p {
+    font-size: 0.95rem;
+  }
 }

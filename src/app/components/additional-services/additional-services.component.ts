@@ -12,7 +12,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
   templateUrl: './additional-services.component.html',
   styleUrls: ['./additional-services.component.css']
 })
-
 export class AdditionalServicesComponent implements OnInit {
 
   formulario!: FormGroup;
@@ -26,6 +25,7 @@ export class AdditionalServicesComponent implements OnInit {
       id: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
       imagen: new FormControl('', Validators.required),
+      precio: new FormControl('', Validators.required),
     });
 
     this.service.getServices().subscribe(data => {
