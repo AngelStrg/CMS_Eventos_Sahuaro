@@ -7,7 +7,6 @@ import { LoginEventosSahuaroComponent } from './components/login-eventos-sahuaro
 import { StockComponent } from './components/stock/stock.component';
 import { OurCostsComponent } from './components/our-costs/our-costs.component';
 import { OurDatesComponent } from './components/our-dates/our-dates.component';
-import { OurServicesComponent } from './components/our-services/our-services.component';
 import { AdditionalServicesComponent } from './components/additional-services/additional-services.component';
 import { authGuard } from './auth.guard';
 
@@ -18,6 +17,5 @@ export const routes: Routes = [
     { path: 'app-our-cost', component: OurCostsComponent, title: 'cost', canActivate: [authGuard]},
     { path: 'app-our-dates', component: OurDatesComponent, title: 'dates', canActivate: [authGuard]},
     {path: 'app-stock', component: StockComponent, title: 'stock', canActivate: [authGuard] },
-    {path: 'app-our-services', component: OurServicesComponent, title: 'our-services', canActivate: [authGuard]},
     {path: 'app-additional-services', component: AdditionalServicesComponent, title: 'app-additional-services', canActivate: [authGuard]},
 ];

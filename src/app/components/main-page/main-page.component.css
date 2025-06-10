@@ -27,6 +27,7 @@
   overflow-x: auto;
   padding-bottom: 10px;
   scroll-behavior: smooth;
+  margin-left: 100px;
 }
 
 .button-grid::-webkit-scrollbar {
