@@ -183,6 +183,11 @@ p.font-semibold {
   transition: border-color 0.3s ease;
 }
 
+.estados{
+   max-width: 80%;
+   margin-left: 127px;
+}
+
 .filtros input:focus {
   border-color: #D9A441;
   outline: none;

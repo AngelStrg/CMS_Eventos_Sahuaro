@@ -9,7 +9,7 @@
   <input type="text" placeholder="Correo" [(ngModel)]="filtros.correo" (input)="filtrarEventos()" />
 
   <!-- Filtro por estado -->
-  <select [(ngModel)]="filtros.estado" (change)="filtrarEventos()">
+  <select [(ngModel)]="filtros.estado" (change)="filtrarEventos()" class="estados">
     <option value="">Todos los estados</option>
     <option *ngFor="let estado of estadosDisponibles" [value]="estado">{{ estado }}</option>
   </select>
