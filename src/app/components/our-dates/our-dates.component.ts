@@ -27,7 +27,7 @@ export class OurDatesComponent implements OnInit {
   coloresMantel = ['Azul Rey', 'Azul Cielo', 'Azul Aqua', 'Rosa', 'Durazno', 'Rosa Mexicano', 'Verde', 'Verde Agua', 'Plateado', 'Dorado', 'Amarillo', 'Naranja'];
   estadosDisponibles = ['Confirmado', 'Pendiente', 'Pospuesto'];
 
-  horasInicioOptions = Array.from({ length: 13 }, (_, i) => i + 8); // 8 a 20
+  horasInicioOptions = Array.from({ length: 13 }, (_, i) => i + 8);
   horasExtrasOptions: number[] = [];
 
   horaFinCalculada: string = '';
