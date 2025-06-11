@@ -1,25 +1,27 @@
 .stock-container {
-  background-color: #aac18a;
+  background-color: white;
   padding: 30px;
   border-radius: 15px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #fff;
+  color: black;
   max-width: 400px;
   margin: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border : 1px solid #6D8C4D;
 }
 
 h2 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: black;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
   margin-bottom: 20px;
+
 }
 
 li {
@@ -30,6 +32,7 @@ li {
   background: rgba(255, 255, 255, 0.1);
   padding: 8px;
   border-radius: 8px;
+  border: 1px solid #6D8C4D;
 }
 
 .item-nombre {
@@ -59,8 +62,8 @@ button {
 }
 
 .delete-btn {
-  background-color: #f8d7da;
-  color: #842029;
+  background-color: #8a0913d7;
+  color: #ffffff;
 }
 
 .guardar-btn {
